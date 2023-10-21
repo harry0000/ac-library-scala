@@ -1,5 +1,7 @@
 # ac-library-scala
 
+[![CI](https://github.com/harry0000/ac-library-scala/actions/workflows/ci.yaml/badge.svg)](https://github.com/harry0000/ac-library-scala/actions/workflows/ci.yaml)
+
 ac-library-scala is a Scala port of AtCoder Library (ACL).
 
 See below for ACL.
