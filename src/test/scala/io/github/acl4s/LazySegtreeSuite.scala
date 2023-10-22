@@ -1,7 +1,5 @@
 package io.github.acl4s
 
-import io.github.acl4s.{LazySegtree, MapMonoid, Monoid}
-
 class LazySegtreeSuite extends munit.FunSuite {
 
   /**

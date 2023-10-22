@@ -1,7 +1,5 @@
 package io.github.acl4s
 
-import io.github.acl4s.{Monoid, Segtree}
-
 class SegtreeSuite extends munit.FunSuite {
 
   /**
