@@ -5,11 +5,11 @@ import scala.reflect.ClassTag
 import io.github.acl4s.internal.{ceilPow2, rightOpenInterval}
 
 final case class Segtree[T](
-  n: Int,
-  size: Int,
-  log: Int,
-  d: Array[T]
-)(using m: Monoid[T]) {
+  n: Int
+)(using m: Monoid[T], tag: ClassTag[T]) {
+  val log: Int = ceilPow2(n)
+  val size: Int = 1 << log
+  val d: Array[T] = Array.fill(2 * size)(m.e())
 
   private val _1_to_log = 1 to log
 
@@ -118,11 +118,8 @@ final case class Segtree[T](
 
 object Segtree {
 
-  def apply[T](n: Int)(using m: Monoid[T], tag: ClassTag[T]): Segtree[T] = {
-    val log = ceilPow2(n)
-    val size = 1 << log
-    val d = Array.fill(2 * size)(m.e())
-    new Segtree(n, size, log, d)
+  def apply[T](n: Int)(using Monoid[T], ClassTag[T]): Segtree[T] = {
+    new Segtree(n)
   }
 
   def apply[T](array: Array[T])(using Monoid[T], ClassTag[T]): Segtree[T] = {
