@@ -13,7 +13,8 @@ lazy val root = project
     scalacOptions ++= List(
       "-deprecation",
       "-feature",
-      "-unchecked"
+      "-unchecked",
+      "-Wunused:all"
     ),
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test
   )

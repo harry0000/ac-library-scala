@@ -1,7 +1,5 @@
 package io.github.acl4s
 
-import io.github.acl4s.{LazySegtree, MapMonoid, Monoid}
-
 class LazySegtreeSuite extends munit.FunSuite {
 
   /**
@@ -23,13 +21,13 @@ class LazySegtreeSuite extends munit.FunSuite {
     }
 
     given m: MapMonoid[S, Pair[Int]] with {
-      def id(): Pair[Int] = Pair(1, 0)
-      def mapping(f: Pair[Int], s: S): S = {
+      final override def id(): Pair[Int] = Pair(1, 0)
+      final override def mapping(f: Pair[Int], s: S): S = {
         val Pair(b, c) = f
         s.a = ((s.a.toLong * b.toLong + s.size.toLong * c.toLong) % MOD).toInt
         s
       }
-      def composition(l: Pair[Int], r: Pair[Int]): Pair[Int] = {
+      final override def composition(l: Pair[Int], r: Pair[Int]): Pair[Int] = {
         Pair(
           ((l.b.toLong * r.b.toLong) % MOD).toInt,
           ((l.b.toLong * r.c.toLong + l.c.toLong) % MOD).toInt
