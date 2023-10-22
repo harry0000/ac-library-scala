@@ -4,13 +4,13 @@ import scala.reflect.ClassTag
 
 import io.github.acl4s.internal.{ceilPow2, rightOpenInterval}
 
-final case class LazySegtree[S: Monoid, F](
-  n: Int,
-  size: Int,
-  log: Int,
-  d: Array[S],
-  lz: Array[F]
-)(using m: MapMonoid[S, F]) {
+final case class LazySegtree[S, F](
+  n: Int
+)(using m: Monoid[S], mm: MapMonoid[S, F], tagS: ClassTag[S], tagF: ClassTag[F]) {
+  val log: Int = ceilPow2(n)
+  val size: Int = 1 << log
+  val d: Array[S] = Array.fill(2 * size)(m.e())
+  val lz: Array[F] = Array.fill(size)(mm.id())
 
   private val _1_to_log = 1 to log
   private val _1_to_log_rev = _1_to_log.reverse
@@ -20,16 +20,16 @@ final case class LazySegtree[S: Monoid, F](
   }
 
   private def applyAll(k: Int, f: F): Unit = {
-    d(k) = m.mapping(f, d(k))
+    d(k) = mm.mapping(f, d(k))
     if (k < size) {
-      lz(k) = m.composition(f, lz(k))
+      lz(k) = mm.composition(f, lz(k))
     }
   }
 
   private def push(k: Int): Unit = {
     applyAll(2 * k, lz(k))
     applyAll(2 * k + 1, lz(k))
-    lz(k) = m.id()
+    lz(k) = mm.id()
   }
 
   def set(index: Int, x: S): Unit = {
@@ -84,7 +84,7 @@ final case class LazySegtree[S: Monoid, F](
     assert(0 <= index && index < n)
     val p = index + size
     _1_to_log_rev.foreach(i => { push(p >> i) })
-    d(p) = m.mapping(f, d(p))
+    d(p) = mm.mapping(f, d(p))
     _1_to_log.foreach(i => { update(p >> i) })
   }
 
@@ -192,15 +192,11 @@ final case class LazySegtree[S: Monoid, F](
 
 object LazySegtree {
 
-  def apply[S: Monoid, F](n: Int)(using m: MapMonoid[S, F], tagS: ClassTag[S], tagF: ClassTag[F]): LazySegtree[S, F] = {
-    val log = ceilPow2(n)
-    val size = 1 << log
-    val d = Array.fill(2 * size)(m.e())
-    val lz = Array.fill(size)(m.id())
-    new LazySegtree(n, size, log, d, lz)
+  def apply[S, F](n: Int)(using Monoid[S], MapMonoid[S, F], ClassTag[S], ClassTag[F]): LazySegtree[S, F] = {
+    new LazySegtree(n)
   }
 
-  def apply[S: Monoid, F](array: Array[S])(using MapMonoid[S, F], ClassTag[S], ClassTag[F]): LazySegtree[S, F] = {
+  def apply[S, F](array: Array[S])(using Monoid[S], MapMonoid[S, F], ClassTag[S], ClassTag[F]): LazySegtree[S, F] = {
     val ret = LazySegtree(array.length)
     (0 until ret.n).foreach(i => { ret.d(ret.size + i) = array(i) })
     (1 until ret.size).reverse.foreach(ret.update)
