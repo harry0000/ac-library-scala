@@ -16,5 +16,10 @@ lazy val root = project
       "-unchecked",
       "-Wunused:all"
     ),
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test
+    libraryDependencies ++= Seq(
+      "org.scalactic" %% "scalactic" % "3.2.17",
+      "org.scalatest" %% "scalatest" % "3.2.17" % "test",
+      "org.scalatest" %% "scalatest-funsuite" % "3.2.17" % "test",
+      "org.scalatest" %% "scalatest-diagrams" % "3.2.17" % "test",
+    )
   )
