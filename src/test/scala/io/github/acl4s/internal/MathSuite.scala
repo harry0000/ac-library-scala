@@ -147,7 +147,7 @@ class MathSuite extends AnyFunSuite with Diagrams {
       assert(g === g2)
       assert(x >= 0)
       assert(x <= b / g)
-      assert((BigInt(x) * a2 % b).toLong === g2 % b)
+      assert((BigInt(x) * a2 % b).toLong === g2 % b + 1)
     }
   }
 
