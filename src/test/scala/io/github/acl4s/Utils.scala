@@ -1,7 +1,12 @@
 package io.github.acl4s
 
+import org.scalatest.diagrams.Diagrams
+import org.scalatest.funsuite.AnyFunSuite
+
 import scala.annotation.tailrec
 import scala.util.Random
+
+trait BaseSuite extends AnyFunSuite with Diagrams
 
 @tailrec
 def gcd(a: Long, b: Long): Long = {

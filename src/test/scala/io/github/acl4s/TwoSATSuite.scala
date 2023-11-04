@@ -1,6 +1,6 @@
 package io.github.acl4s
 
-class TwoSATSuite extends munit.FunSuite {
+class TwoSATSuite extends BaseSuite {
 
   /**
    * @see https://atcoder.jp/contests/practice2/tasks/practice2_h
@@ -33,7 +33,7 @@ class TwoSATSuite extends munit.FunSuite {
         }
       }
 
-      assertEquals(ts.satisfiable(), true)
+      assert(ts.satisfiable() === true)
 
       val res = ts.answer.zipWithIndex
         .map((v, i) =>
@@ -68,14 +68,14 @@ class TwoSATSuite extends munit.FunSuite {
         }
       }
 
-      assertEquals(ts.satisfiable(), false)
+      assert(ts.satisfiable() === false)
     }
   }
 
   test("zero") {
     val ts = TwoSAT(0)
-    assertEquals(ts.satisfiable(), true)
-    assertEquals(ts.answer.toSeq, Seq())
+    assert(ts.satisfiable() === true)
+    assert(ts.answer.toSeq === Nil)
   }
 
   test("one") {
@@ -83,19 +83,19 @@ class TwoSATSuite extends munit.FunSuite {
       val ts = TwoSAT(1)
       ts.addClause(0, true, 0, true)
       ts.addClause(0, false, 0, false)
-      assertEquals(ts.satisfiable(), false)
+      assert(ts.satisfiable() === false)
     }
     {
       val ts = TwoSAT(1)
       ts.addClause(0, true, 0, true)
-      assertEquals(ts.satisfiable(), true)
-      assertEquals(ts.answer.toSeq, Seq(true))
+      assert(ts.satisfiable() === true)
+      assert(ts.answer.toSeq === Seq(true))
     }
     {
       val ts = TwoSAT(1)
       ts.addClause(0, false, 0, false)
-      assertEquals(ts.satisfiable(), true)
-      assertEquals(ts.answer.toSeq, Seq(false))
+      assert(ts.satisfiable() === true)
+      assert(ts.answer.toSeq === Seq(false))
     }
   }
 
@@ -123,16 +123,16 @@ class TwoSATSuite extends munit.FunSuite {
         }
       })
 
-      assertEquals(ts.satisfiable(), true)
+      assert(ts.satisfiable() === true)
 
       val actual = ts.answer
       (0 until m).foreach(i => {
         val x = xs(i)
         val y = ys(i)
         types(i) match {
-          case 0 => assertEquals(actual(x) == expect(x) || actual(y) == expect(y), true)
-          case 1 => assertEquals(actual(x) != expect(x) || actual(y) == expect(y), true)
-          case _ => assertEquals(actual(x) == expect(x) || actual(y) != expect(y), true)
+          case 0 => assert(actual(x) == expect(x) || actual(y) == expect(y) === true)
+          case 1 => assert(actual(x) != expect(x) || actual(y) == expect(y) === true)
+          case _ => assert(actual(x) == expect(x) || actual(y) != expect(y) === true)
         }
       })
     })

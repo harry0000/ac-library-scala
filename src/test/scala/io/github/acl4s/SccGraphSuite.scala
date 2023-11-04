@@ -1,6 +1,6 @@
 package io.github.acl4s
 
-class SccGraphSuite extends munit.FunSuite {
+class SccGraphSuite extends BaseSuite {
 
   /**
    * @see https://atcoder.jp/contests/practice2/tasks/practice2_g
@@ -16,12 +16,12 @@ class SccGraphSuite extends munit.FunSuite {
     graph.addEdge(4, 2)
 
     val scc = graph.scc()
-    assertEquals(scc.size, 4)
-    assertEquals(scc.map(_.toSet).toSet, Set(Set(5), Set(1, 4), Set(2), Set(0, 3)))
+    assert(scc.size === 4)
+    assert(scc.map(_.toSet).toSet === Set(Set(5), Set(1, 4), Set(2), Set(0, 3)))
   }
 
   test("empty") {
-    assertEquals(SccGraph(0).scc(), Seq())
+    assert(SccGraph(0).scc() === Nil)
   }
 
   test("simple") {
@@ -30,7 +30,7 @@ class SccGraphSuite extends munit.FunSuite {
     graph.addEdge(1, 0)
 
     val scc = graph.scc()
-    assertEquals(scc.size, 1)
+    assert(scc.size === 1)
   }
 
   test("self loop") {
@@ -40,6 +40,6 @@ class SccGraphSuite extends munit.FunSuite {
     graph.addEdge(1, 1)
 
     val scc = graph.scc()
-    assertEquals(scc.size, 2)
+    assert(scc.size === 2)
   }
 }

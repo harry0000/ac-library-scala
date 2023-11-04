@@ -1,6 +1,6 @@
 package io.github.acl4s
 
-class FenwickTreeSuite extends munit.FunSuite {
+class FenwickTreeSuite extends BaseSuite {
 
   /**
    * @see https://atcoder.jp/contests/practice2/tasks/practice2_b
@@ -8,19 +8,19 @@ class FenwickTreeSuite extends munit.FunSuite {
   test("AtCoder Library Practice Contest B - Fenwick Tree") {
     val fw = FenwickTree(Array(1L, 2L, 3L, 4L, 5L))
 
-    assertEquals(fw.sum(0, 5), 15L)
-    assertEquals(fw.sum(2, 4), 7L)
+    assert(fw.sum(0, 5) === 15L)
+    assert(fw.sum(2, 4) === 7L)
 
     fw.add(3, 10)
 
-    assertEquals(fw.sum(0, 5), 25L)
-    assertEquals(fw.sum(0, 3), 6L)
+    assert(fw.sum(0, 5) === 25L)
+    assert(fw.sum(0, 3) === 6L)
   }
 
   test("zero") {
     {
       val fw = FenwickTree[Long](0)
-      assertEquals(fw.sum(0, 0), 0L)
+      assert(fw.sum(0, 0) === 0L)
     }
 
     {
@@ -28,7 +28,7 @@ class FenwickTreeSuite extends munit.FunSuite {
       val ModInt = DynamicModInt
 
       val fw = FenwickTree[ModInt](0)
-      assertEquals(fw.sum(0, 0), ModInt(0))
+      assert(fw.sum(0, 0) === ModInt(0))
     }
 
     {
@@ -36,7 +36,7 @@ class FenwickTreeSuite extends munit.FunSuite {
       val ModInt = ModInt998244353
 
       val fw = FenwickTree[ModInt](0)
-      assertEquals(fw.sum(0, 0), ModInt(0))
+      assert(fw.sum(0, 0) === ModInt(0))
     }
 
     {
@@ -44,7 +44,7 @@ class FenwickTreeSuite extends munit.FunSuite {
       val ModInt = ModInt1000000007
 
       val fw = FenwickTree[ModInt](0)
-      assertEquals(fw.sum(0, 0), ModInt(0))
+      assert(fw.sum(0, 0) === ModInt(0))
     }
 
     {
@@ -53,7 +53,7 @@ class FenwickTreeSuite extends munit.FunSuite {
       val ModInt = StaticModInt
 
       val fw = FenwickTree[ModInt](0)
-      assertEquals(fw.sum(0, 0), ModInt(0))
+      assert(fw.sum(0, 0) === ModInt(0))
     }
   }
 
@@ -69,7 +69,7 @@ class FenwickTreeSuite extends munit.FunSuite {
         r <- l to n
       } {
         val sum = (l until r).map(i => i.toLong * i).sum
-        assertEquals(fw.sum(l, r), sum)
+        assert(fw.sum(l, r) === sum)
       }
     })
   }
@@ -80,11 +80,11 @@ class FenwickTreeSuite extends munit.FunSuite {
     fw.add(3, Int.MaxValue)
     fw.add(5, Int.MinValue)
 
-    assertEquals(fw.sum(0, 10), -1)
-    assertEquals(fw.sum(3, 6), -1)
+    assert(fw.sum(0, 10) === -1)
+    assert(fw.sum(3, 6) === -1)
 
-    assertEquals(fw.sum(3, 4), Int.MaxValue)
-    assertEquals(fw.sum(4, 10), Int.MinValue)
+    assert(fw.sum(3, 4) === Int.MaxValue)
+    assert(fw.sum(4, 10) === Int.MinValue)
   }
 
   test("bound long") {
@@ -93,11 +93,11 @@ class FenwickTreeSuite extends munit.FunSuite {
     fw.add(3, Long.MaxValue)
     fw.add(5, Long.MinValue)
 
-    assertEquals(fw.sum(0, 10), -1L)
-    assertEquals(fw.sum(3, 6), -1L)
+    assert(fw.sum(0, 10) === -1L)
+    assert(fw.sum(3, 6) === -1L)
 
-    assertEquals(fw.sum(3, 4), Long.MaxValue)
-    assertEquals(fw.sum(4, 10), Long.MinValue)
+    assert(fw.sum(3, 4) === Long.MaxValue)
+    assert(fw.sum(4, 10) === Long.MinValue)
   }
 
   test("overflow") {
@@ -121,7 +121,7 @@ class FenwickTreeSuite extends munit.FunSuite {
     } {
       val sum = (l until r).map(i => a(i)).sum
       val dif = sum - fw.sum(l, r)
-      assertEquals(dif % (1L << 32), 0L)
+      assert(dif % (1L << 32) === 0L)
     }
   }
 
@@ -141,7 +141,7 @@ class FenwickTreeSuite extends munit.FunSuite {
         r <- l to n
       } {
         val sum = (l until r).map(i => i.toLong * i).sum
-        assertEquals(fw.sum(l, r), ModInt(sum))
+        assert(fw.sum(l, r) === ModInt(sum))
       }
     })
   }
@@ -162,7 +162,7 @@ class FenwickTreeSuite extends munit.FunSuite {
         r <- l to n
       } {
         val sum = (l until r).map(i => i.toLong * i).sum
-        assertEquals(fw.sum(l, r), ModInt(sum))
+        assert(fw.sum(l, r) === ModInt(sum))
       }
     })
   }

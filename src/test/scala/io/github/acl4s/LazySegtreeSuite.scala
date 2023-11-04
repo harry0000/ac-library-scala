@@ -1,6 +1,6 @@
 package io.github.acl4s
 
-class LazySegtreeSuite extends munit.FunSuite {
+class LazySegtreeSuite extends BaseSuite {
 
   /**
    * @see https://atcoder.jp/contests/practice2/tasks/practice2_k
@@ -44,19 +44,19 @@ class LazySegtreeSuite extends munit.FunSuite {
     val a = Array(1, 2, 3, 4, 5).map(S(_))
     val segtree = LazySegtree(a)
 
-    assertEquals(segtree.prod(0, 5).a.value, 15)
+    assert(segtree.prod(0, 5).a.value === 15)
 
     segtree.applyRange(2, 4, Pair(100, 101))
 
-    assertEquals(segtree.prod(0, 3).a.value, 404)
+    assert(segtree.prod(0, 3).a.value === 404)
 
     segtree.applyRange(1, 3, Pair(102, 103))
 
-    assertEquals(segtree.prod(2, 5).a.value, 41511)
+    assert(segtree.prod(2, 5).a.value === 41511)
 
     segtree.applyRange(2, 5, Pair(104, 105))
 
-    assertEquals(segtree.prod(0, 5).a.value, 4317767)
+    assert(segtree.prod(0, 5).a.value === 4317767)
   }
 
   /**
@@ -97,15 +97,15 @@ class LazySegtreeSuite extends munit.FunSuite {
 
     val segtree = LazySegtree(Array(0, 1, 0, 0, 1).map(S(_)))
 
-    assertEquals(segtree.prod(0 until 5).inv, 2L)
+    assert(segtree.prod(0 until 5).inv === 2L)
 
     segtree.applyRange(2 until 4, true)
 
-    assertEquals(segtree.prod(1, 5).inv, 0L)
+    assert(segtree.prod(1, 5).inv === 0L)
 
     segtree.applyRange(0 until 3, true)
 
-    assertEquals(segtree.prod(0 until 2).inv, 1L)
+    assert(segtree.prod(0 until 2).inv === 1L)
   }
 
   /**
@@ -133,7 +133,7 @@ class LazySegtreeSuite extends munit.FunSuite {
         height
       })
 
-      assertEquals(results.toSeq, Seq(1, 2, 2, 3))
+      assert(results.toSeq === Seq(1, 2, 2, 3))
     }
 
     {
@@ -147,7 +147,7 @@ class LazySegtreeSuite extends munit.FunSuite {
         height
       })
 
-      assertEquals(results.toSeq, Seq(1, 2, 3, 4, 5, 6, 7))
+      assert(results.toSeq === Seq(1, 2, 3, 4, 5, 6, 7))
     }
   }
 

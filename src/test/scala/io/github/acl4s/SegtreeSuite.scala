@@ -1,6 +1,6 @@
 package io.github.acl4s
 
-class SegtreeSuite extends munit.FunSuite {
+class SegtreeSuite extends BaseSuite {
 
   /**
    * @see https://atcoder.jp/contests/practice2/tasks/practice2_j
@@ -15,16 +15,16 @@ class SegtreeSuite extends munit.FunSuite {
     val n = base.length
 
     val segtree = Segtree(base)
-    assertEquals(segtree.prod(0 until n), 3)
-    assertEquals(segtree.allProd(), 3)
+    assert(segtree.prod(0 until n) === 3)
+    assert(segtree.allProd() === 3)
 
-    assertEquals(segtree.maxRight(1, _ < 3), 2)
+    assert(segtree.maxRight(1, _ < 3) === 2)
 
     segtree.set(2, 1)
 
-    assertEquals(segtree.prod(1 until 4), 2)
+    assert(segtree.prod(1 until 4) === 2)
 
-    assertEquals(segtree.maxRight(0, _ < 3), 5)
+    assert(segtree.maxRight(0, _ < 3) === 5)
   }
 
   /**
@@ -41,10 +41,10 @@ class SegtreeSuite extends munit.FunSuite {
     segtree.set(1, 2)
     segtree.set(2, 3)
 
-    assertEquals(segtree.prod(0 until 2), 1)
-    assertEquals(segtree.prod(1 until 2), 2)
-    assertEquals(segtree.prod(0 until 3), 1)
-    assertEquals(segtree.allProd(), 1)
+    assert(segtree.prod(0 until 2) === 1)
+    assert(segtree.prod(1 until 2) === 2)
+    assert(segtree.prod(0 until 3) === 1)
+    assert(segtree.allProd() === 1)
   }
 
   /**
@@ -61,10 +61,10 @@ class SegtreeSuite extends munit.FunSuite {
     segtree.set(1, 2)
     segtree.set(2, 3)
 
-    assertEquals(segtree.prod(0, 2), 3)
-    assertEquals(segtree.prod(1, 2), 2)
-    assertEquals(segtree.prod(0, 3), 6)
-    assertEquals(segtree.allProd(), 6)
+    assert(segtree.prod(0, 2) === 3)
+    assert(segtree.prod(1, 2) === 2)
+    assert(segtree.prod(0, 3) === 6)
+    assert(segtree.allProd() === 6)
   }
 
 }

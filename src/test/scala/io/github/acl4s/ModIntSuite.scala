@@ -2,7 +2,7 @@ package io.github.acl4s
 
 import io.github.acl4s.gcd
 
-class ModIntSuite extends munit.FunSuite {
+class ModIntSuite extends BaseSuite {
 
   test("DynamicModInt border") {
     val ModInt = DynamicModInt
@@ -21,12 +21,12 @@ class ModIntSuite extends munit.FunSuite {
       )
       for (a <- v) {
         val la = a.toLong
-        assertEquals(ModInt(a).pow(3).value, (((la * la) % lmod * la) % lmod).toInt)
+        assert(ModInt(a).pow(3).value === (((la * la) % lmod * la) % lmod).toInt)
         for (b <- v) {
           val lb = b.toLong
-          assertEquals((ModInt(a) + ModInt(b)).value, ((la + lb) % lmod).toInt)
-          assertEquals((ModInt(a) - ModInt(b)).value, ((la - lb + lmod) % lmod).toInt)
-          assertEquals((ModInt(a) * ModInt(b)).value, ((la * lb) % lmod).toInt)
+          assert((ModInt(a) + ModInt(b)).value === ((la + lb) % lmod).toInt)
+          assert((ModInt(a) - ModInt(b)).value === ((la - lb + lmod) % lmod).toInt)
+          assert((ModInt(a) * ModInt(b)).value === ((la * lb) % lmod).toInt)
         }
       }
     })
@@ -40,13 +40,13 @@ class ModIntSuite extends munit.FunSuite {
       i <- 0 until 100
       j <- 0 until 100
     } {
-      assertEquals((ModInt(i) * ModInt(j)).value, 0)
+      assert((ModInt(i) * ModInt(j)).value === 0)
     }
-    assertEquals((ModInt(12345) + ModInt(67890)).value, 0)
-    assertEquals((ModInt(12345) - ModInt(67890)).value, 0)
-    assertEquals((ModInt(12345) * ModInt(67890)).value, 0)
-    assertEquals(ModInt(12345).pow(67890).value, 0)
-    assertEquals(ModInt(0).inv.value, 0)
+    assert((ModInt(12345) + ModInt(67890)).value === 0)
+    assert((ModInt(12345) - ModInt(67890)).value === 0)
+    assert((ModInt(12345) * ModInt(67890)).value === 0)
+    assert(ModInt(12345).pow(67890).value === 0)
+    assert(ModInt(0).inv.value === 0)
   }
 
   test("DynamicModInt inv") {
@@ -56,14 +56,14 @@ class ModIntSuite extends munit.FunSuite {
       val x = ModInt(i).inv.value
       assert(x >= 0)
       assert(x <= 998_244_353 - 1)
-      assertEquals((x.toLong * i) % 998_244_353, 1L)
+      assert((x.toLong * i) % 998_244_353 === 1L)
     })
 
     ModInt.setMod(1_000_000_008)
     (1 until 100_000).foreach(i => {
       if (gcd(i, 1_000_000_008) == 1) {
         val x = ModInt(i).inv.value
-        assertEquals((x.toLong * i) % 1_000_000_008, 1L)
+        assert((x.toLong * i) % 1_000_000_008 === 1L)
       }
     })
 
@@ -71,7 +71,7 @@ class ModIntSuite extends munit.FunSuite {
     (1 until 100_000).foreach(i => {
       if (gcd(i, Int.MaxValue) == 1) {
         val x = ModInt(i).inv.value
-        assertEquals((x.toLong * i) % Int.MaxValue, 1L)
+        assert((x.toLong * i) % Int.MaxValue === 1L)
       }
     })
   }
@@ -93,12 +93,12 @@ class ModIntSuite extends munit.FunSuite {
         )
         for (a <- v) {
           val la = a.toLong
-          assertEquals(ModInt(a).pow(3).value, (((la * la) % lmod * la) % lmod).toInt)
+          assert(ModInt(a).pow(3).value === (((la * la) % lmod * la) % lmod).toInt)
           for (b <- v) {
             val lb = b.toLong
-            assertEquals((ModInt(a) + ModInt(b)).value, ((la + lb) % lmod).toInt)
-            assertEquals((ModInt(a) - ModInt(b)).value, ((la - lb + lmod) % lmod).toInt)
-            assertEquals((ModInt(a) * ModInt(b)).value, ((la * lb) % lmod).toInt)
+            assert((ModInt(a) + ModInt(b)).value === ((la + lb) % lmod).toInt)
+            assert((ModInt(a) - ModInt(b)).value === ((la - lb + lmod) % lmod).toInt)
+            assert((ModInt(a) * ModInt(b)).value === ((la * lb) % lmod).toInt)
           }
         }
       })
@@ -119,12 +119,12 @@ class ModIntSuite extends munit.FunSuite {
         )
         for (a <- v) {
           val la = a.toLong
-          assertEquals(ModInt(a).pow(3).value, (((la * la) % lmod * la) % lmod).toInt)
+          assert(ModInt(a).pow(3).value === (((la * la) % lmod * la) % lmod).toInt)
           for (b <- v) {
             val lb = b.toLong
-            assertEquals((ModInt(a) + ModInt(b)).value, ((la + lb) % lmod).toInt)
-            assertEquals((ModInt(a) - ModInt(b)).value, ((la - lb + lmod) % lmod).toInt)
-            assertEquals((ModInt(a) * ModInt(b)).value, ((la * lb) % lmod).toInt)
+            assert((ModInt(a) + ModInt(b)).value === ((la + lb) % lmod).toInt)
+            assert((ModInt(a) - ModInt(b)).value === ((la - lb + lmod) % lmod).toInt)
+            assert((ModInt(a) * ModInt(b)).value === ((la * lb) % lmod).toInt)
           }
         }
       })
@@ -139,13 +139,13 @@ class ModIntSuite extends munit.FunSuite {
       i <- 0 until 100
       j <- 0 until 100
     } {
-      assertEquals((ModInt(i) * ModInt(j)).value, 0)
+      assert((ModInt(i) * ModInt(j)).value === 0)
     }
-    assertEquals((ModInt(12345) + ModInt(67890)).value, 0)
-    assertEquals((ModInt(12345) - ModInt(67890)).value, 0)
-    assertEquals((ModInt(12345) * ModInt(67890)).value, 0)
-    assertEquals(ModInt(12345).pow(67890).value, 0)
-    assertEquals(ModInt(0).inv.value, 0)
+    assert((ModInt(12345) + ModInt(67890)).value === 0)
+    assert((ModInt(12345) - ModInt(67890)).value === 0)
+    assert((ModInt(12345) * ModInt(67890)).value === 0)
+    assert(ModInt(12345).pow(67890).value === 0)
+    assert(ModInt(0).inv.value === 0)
   }
 
   test("StaticModInt inv") {
@@ -155,7 +155,7 @@ class ModIntSuite extends munit.FunSuite {
 
       (1 until 11).foreach(i => {
         val x = ModInt(i).inv.value
-        assertEquals((x * i) % 11, 1)
+        assert((x * i) % 11 === 1)
       })
     }
     {
@@ -165,7 +165,7 @@ class ModIntSuite extends munit.FunSuite {
       (1 until 12).foreach(i => {
         if (gcd(i, 12) == 1) {
           val x = ModInt(i).inv.value
-          assertEquals((x * i) % 12, 1)
+          assert((x * i) % 12 === 1)
         }
       })
     }
@@ -176,7 +176,7 @@ class ModIntSuite extends munit.FunSuite {
       (1 until 100_000).foreach(i => {
         if (gcd(i, 1_000_000_008) == 1) {
           val x = ModInt(i).inv.value
-          assertEquals((x.toLong * i) % 1_000_000_008, 1L)
+          assert((x.toLong * i) % 1_000_000_008 === 1L)
         }
       })
     }
@@ -185,7 +185,7 @@ class ModIntSuite extends munit.FunSuite {
 
       (1 until 100_000).foreach(i => {
         val x = ModInt(i).inv.value
-        assertEquals((x.toLong * i) % 998_244_353, 1L)
+        assert((x.toLong * i) % 998_244_353 === 1L)
       })
     }
     {
@@ -193,7 +193,7 @@ class ModIntSuite extends munit.FunSuite {
 
       (1 until 100_000).foreach(i => {
         val x = ModInt(i).inv.value
-        assertEquals((x.toLong * i) % 1_000_000_007, 1L)
+        assert((x.toLong * i) % 1_000_000_007 === 1L)
       })
     }
   }

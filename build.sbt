@@ -1,5 +1,7 @@
 lazy val supportedScalaVersions = List("3.3.1", "3.3.0")
 
+val scalaTestVersion = "3.2.18"
+
 lazy val root = project
   .in(file("."))
   .settings(
@@ -16,6 +18,11 @@ lazy val root = project
       "-unchecked",
       "-Wunused:all"
     ),
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test,
+    libraryDependencies ++= Seq(
+      "org.scalactic" %% "scalactic" % scalaTestVersion,
+      "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
+      "org.scalatest" %% "scalatest-funsuite" % scalaTestVersion % "test",
+      "org.scalatest" %% "scalatest-diagrams" % scalaTestVersion % "test",
+    ),
     Test / parallelExecution := false
   )

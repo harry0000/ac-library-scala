@@ -2,9 +2,9 @@ package io.github.acl4s.internal
 
 import scala.collection.mutable
 
-import io.github.acl4s.gcd
+import io.github.acl4s.{BaseSuite, gcd}
 
-class MathSuite extends munit.FunSuite {
+class MathSuite extends BaseSuite {
 
   test("Barrett") {
     (1 to 100).foreach(m => {
@@ -13,11 +13,11 @@ class MathSuite extends munit.FunSuite {
         a <- 0 until m
         b <- 0 until m
       } {
-        assertEquals(bt.mul(a, b), (a * b) % m)
+        assert(bt.mul(a, b) === (a * b) % m)
       }
     })
 
-    assertEquals(Barrett(1).mul(0, 0), 0)
+    assert(Barrett(1).mul(0, 0) === 0)
   }
 
   test("Barrett Int border") {
@@ -35,22 +35,22 @@ class MathSuite extends munit.FunSuite {
       )
       for (a <- v) {
         val la = a.toLong
-        assertEquals(bt.mul(a, bt.mul(a, a)), (((la * la) % lmod * la) % lmod).toInt)
+        assert(bt.mul(a, bt.mul(a, a)) === (((la * la) % lmod * la) % lmod).toInt)
         for (b <- v) {
           val lb = b.toLong
-          assertEquals(bt.mul(a, b), ((la * lb) % lmod).toInt)
+          assert(bt.mul(a, b) === ((la * lb) % lmod).toInt)
         }
       }
     })
   }
 
   test("isPrime()") {
-    assertEquals(isPrime(121), false)
-    assertEquals(isPrime(11 * 13), false)
-    assertEquals(isPrime(998_244_353), true)
-    assertEquals(isPrime(1_000_000_007), true)
-    assertEquals(isPrime(1_000_000_008), false)
-    assertEquals(isPrime(1_000_000_009), true)
+    assert(isPrime(121) === false)
+    assert(isPrime(11 * 13) === false)
+    assert(isPrime(998_244_353) === true)
+    assert(isPrime(1_000_000_007) === true)
+    assert(isPrime(1_000_000_008) === false)
+    assert(isPrime(1_000_000_009) === true)
   }
 
   def buildBorderFromIsPrimeNaive(): Map[Int, Boolean] = {
@@ -82,7 +82,7 @@ class MathSuite extends munit.FunSuite {
     val preds = buildBorderFromIsPrimeNaive()
 
     preds.foreach((x, expected) => {
-      assertEquals(isPrime(x), expected)
+      assert(isPrime(x) === expected)
     })
   }
 
@@ -102,7 +102,7 @@ class MathSuite extends munit.FunSuite {
       if b > 0
     } {
       val ans = (BigInt(a) % b + b) % b
-      assertEquals(safeMod(a, b), ans.toLong)
+      assert(safeMod(a, b) === ans.toLong)
     }
   }
 
@@ -141,10 +141,10 @@ class MathSuite extends munit.FunSuite {
       val LPair(g, x) = invGcd(a, b)
       val g2 = gcd(a2, b)
 
-      assertEquals(g, g2)
+      assert(g === g2)
       assert(x >= 0)
       assert(x <= b / g)
-      assertEquals((BigInt(x) * a2 % b).toLong, g2 % b)
+      assert((BigInt(x) * a2 % b).toLong === g2 % b)
     }
   }
 

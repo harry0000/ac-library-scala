@@ -1,6 +1,6 @@
 package io.github.acl4s
 
-class DsuSuite extends munit.FunSuite {
+class DsuSuite extends BaseSuite {
 
   /**
    * @see https://atcoder.jp/contests/practice2/tasks/practice2_a
@@ -8,37 +8,37 @@ class DsuSuite extends munit.FunSuite {
   test("AtCoder Library Practice Contest A - Disjoint Set Union") {
     val uf = Dsu(4)
 
-    assertEquals(uf.same(0, 1), false)
+    assert(uf.same(0, 1) === false)
 
     uf.merge(0, 1)
     uf.merge(2, 3)
 
-    assertEquals(uf.same(0, 1), true)
-    assertEquals(uf.same(1, 2), false)
-    assertEquals(uf.groups(), Seq(Seq(0, 1), Seq(2, 3)))
+    assert(uf.same(0, 1) === true)
+    assert(uf.same(1, 2) === false)
+    assert(uf.groups() === Seq(Seq(0, 1), Seq(2, 3)))
 
     uf.merge(0, 2)
 
-    assertEquals(uf.same(1, 3), true)
-    assertEquals(uf.groups(), Seq(Seq(0, 1, 2, 3)))
+    assert(uf.same(1, 3) === true)
+    assert(uf.groups() === Seq(Seq(0, 1, 2, 3)))
   }
 
   test("zero") {
     val uf = Dsu(0)
 
-    assertEquals(uf.groups(), Seq())
+    assert(uf.groups() === Nil)
   }
 
   test("simple") {
     val uf = Dsu(2)
 
-    assertEquals(uf.same(0, 1), false)
+    assert(uf.same(0, 1) === false)
 
     val x = uf.merge(0, 1)
-    assertEquals(uf.leader(0), x)
-    assertEquals(uf.leader(1), x)
-    assertEquals(uf.same(0, 1), true)
-    assertEquals(uf.size(0), 2)
+    assert(uf.leader(0) === x)
+    assert(uf.leader(1) === x)
+    assert(uf.same(0, 1) === true)
+    assert(uf.size(0) === 2)
   }
 
   test("line") {
@@ -49,8 +49,8 @@ class DsuSuite extends munit.FunSuite {
       uf.merge(i, i + 1)
     })
 
-    assertEquals(uf.size(0), n)
-    assertEquals(uf.groups().size, 1)
+    assert(uf.size(0) === n)
+    assert(uf.groups().size === 1)
   }
 
   test("line reverse") {
@@ -61,8 +61,8 @@ class DsuSuite extends munit.FunSuite {
       uf.merge(i, i + 1)
     })
 
-    assertEquals(uf.size(0), n)
-    assertEquals(uf.groups().size, 1)
+    assert(uf.size(0) === n)
+    assert(uf.groups().size === 1)
   }
 
 }
