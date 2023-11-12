@@ -4,13 +4,15 @@ import scala.annotation.targetName
 
 import io.github.acl4s.internal.{Barrett, LPair}
 
-private[acl4s] inline def applyIntImpl(value: Int, mod: Int): Long = {
-  applyLongImpl(value.toLong, mod)
+private[acl4s] inline def applyIntImpl(value: Int, mod: Int): Int = {
+  var x = value % mod
+  if (x < 0) { x += mod }
+  x
 }
 
 private[acl4s] inline def applyLongImpl(value: Long, mod: Int): Long = {
-  var x = value % mod.toLong
-  if (x < 0L) { x += mod.toLong }
+  var x = value % mod
+  if (x < 0L) { x += mod }
   x
 }
 
@@ -174,7 +176,7 @@ object StaticModInt {
 
   def apply[T <: Int](value: Int)(using m: Modulus[T]): StaticModInt[T] = {
     val x = applyIntImpl(value, m.value)
-    new StaticModInt(x.toInt)
+    new StaticModInt(x)
   }
 
   def apply[T <: Int](value: Long)(using m: Modulus[T]): StaticModInt[T] = {
@@ -285,7 +287,7 @@ object DynamicModInt {
 
   def apply(value: Int): DynamicModInt = {
     val x = applyIntImpl(value, bt.m)
-    new DynamicModInt(x.toInt)
+    new DynamicModInt(x)
   }
 
   def apply(value: Long): DynamicModInt = {
