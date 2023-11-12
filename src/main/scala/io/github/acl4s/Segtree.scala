@@ -2,7 +2,7 @@ package io.github.acl4s
 
 import scala.reflect.ClassTag
 
-import io.github.acl4s.internal.{ceilPow2, rightOpenInterval}
+import io.github.acl4s.internal.{ceilPow2, rightOpenInterval, IPair}
 
 final case class Segtree[T](
   n: Int
@@ -30,7 +30,7 @@ final case class Segtree[T](
   }
 
   def prod(range: Range): T = {
-    val (l, r) = rightOpenInterval(range)
+    val IPair(l, r) = rightOpenInterval(range)
     prod(l, r)
   }
 
