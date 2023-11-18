@@ -56,7 +56,7 @@ case class Dsu(n: Int) {
     -parentOrSize(leader(a))
   }
 
-  def groups(): Seq[Seq[Int]] = {
+  def groups(): collection.Seq[collection.Seq[Int]] = {
     val leader_buf = new Array[Int](n)
     val group_size = new Array[Int](n)
     (0 until n).foreach(i => {
@@ -64,17 +64,15 @@ case class Dsu(n: Int) {
       group_size(leader_buf(i)) += 1
     })
 
-    val result = new Array[mutable.ArrayBuffer[Int]](n)
+    val result = new mutable.ArrayBuffer[mutable.Buffer[Int]](n)
     (0 until n).foreach(i => {
-      result(i) = new mutable.ArrayBuffer(group_size(i))
+      result += new mutable.ArrayBuffer(group_size(i))
     })
     (0 until n).foreach(i => {
       result(leader_buf(i)) += i
     })
 
-    result.collect {
-      case buf if buf.nonEmpty => buf.toSeq
-    }.toSeq
+    result.filter(_.nonEmpty)
   }
 
 }
