@@ -1,5 +1,7 @@
 package io.github.acl4s
 
+import scala.util.boundary, boundary.break
+
 /**
  * Reference:
  * B. Aspvall, M. Plass, and R. Tarjan,
@@ -28,12 +30,12 @@ class TwoSAT(private val n: Int) {
 
   def satisfiable(): Boolean = {
     val (_, id) = scc.sccIds()
-    (0 until n).foreach(i => {
-      if (id(2 * i) == id(2 * i + 1)) {
-        return false
+    boundary {
+      for (i <- 0 until n) {
+        if (id(2 * i) == id(2 * i + 1)) { break(false) }
+        answer(i) = id(2 * i) < id(2 * i + 1)
       }
-      answer(i) = id(2 * i) < id(2 * i + 1)
-    })
-    true
+      true
+    }
   }
 }

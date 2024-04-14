@@ -90,8 +90,7 @@ object Modulus {
   inline def apply[T <: Int](): Modulus[T] = Mod(compiletime.constValue[T])
 }
 
-final case class StaticModInt[T <: Int] private (private[this] var _value: Int)(using m: Modulus[T])
-    extends ModIntBase[T] {
+final case class StaticModInt[T <: Int] private (private var _value: Int)(using m: Modulus[T]) extends ModIntBase[T] {
   override type Self = StaticModInt[T]
   override val mod: T = m.value
 
@@ -204,7 +203,7 @@ object ModInt998244353 {
   def apply(value: Long): ModInt998244353 = StaticModInt(value)
 }
 
-final case class DynamicModInt private (private[this] var _value: Int) extends ModIntBase[Int] {
+final case class DynamicModInt private (private var _value: Int) extends ModIntBase[Int] {
   override type Self = DynamicModInt
   override val mod: Int = DynamicModInt.bt.m
 
