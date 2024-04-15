@@ -1,4 +1,4 @@
-lazy val supportedScalaVersions = List("3.3.1", "3.3.0")
+lazy val supportedScalaVersions = List("3.4.1", "3.3.0")
 
 lazy val root = project
   .in(file("."))
@@ -16,6 +16,6 @@ lazy val root = project
       "-unchecked",
       "-Wunused:all"
     ),
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test,
+    libraryDependencies += "org.scalameta" %% "munit" % "1.0.0-M11" % Test,
     Test / parallelExecution := false
   )
