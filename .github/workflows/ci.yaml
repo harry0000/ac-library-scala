@@ -1,42 +1,53 @@
 name: CI
+
 on:
   pull_request:
+    branches:
+      - '**'
   push:
+    branches:
+      - main
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      # define Java options for both official sbt and sbt-extras
+      JAVA_OPTS: -Xms2048M -Xmx2048M -Xss6M -XX:ReservedCodeCacheSize=256M -Dfile.encoding=UTF-8
+      JVM_OPTS: -Xms2048M -Xmx2048M -Xss6M -XX:ReservedCodeCacheSize=256M -Dfile.encoding=UTF-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: sbt
+      - name: 'Run Scalafmt'
+        run: sbt -v ++3.4.2 scalafmtSbt scalafmtAll
   test:
     strategy:
       fail-fast: false
       matrix:
-        name: [ "test" ]
-        scala: [ 3.3.0, 3.4.1 ]
+        scala: [ 3.3.0, 3.4.2 ]
         java: [ 20, 21 ]
-        include:
-          - name: "format"
-            scala: 3.4.1
-            java: 21
         exclude:
-          - name: "test"
-            scala: 3.3.0
+          - scala: 3.3.0
             java: 21
     runs-on: ubuntu-latest
+    env:
+      # define Java options for both official sbt and sbt-extras
+      JAVA_OPTS: -Xms2048M -Xmx2048M -Xss6M -XX:ReservedCodeCacheSize=256M -Dfile.encoding=UTF-8
+      JVM_OPTS: -Xms2048M -Xmx2048M -Xss6M -XX:ReservedCodeCacheSize=256M -Dfile.encoding=UTF-8
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: ${{ matrix.java }}
           cache: sbt
-      - shell: bash
-        run: |
-          case ${{ matrix.name }} in
-            "format")
-              sbt -v ++${{ matrix.scala }} scalafmtSbt scalafmtAll
-              git diff --exit-code
-              ;;
-            "test")
-              sbt -v ++${{ matrix.scala }} test
-              ;;
-            *)
-              echo "unknown job"
-              exit 1
-          esac
+      - name: 'Run tests'
+        run: sbt -v ++${{ matrix.scala }} test
