@@ -1,4 +1,4 @@
-lazy val supportedScalaVersions = List("3.4.1", "3.3.0")
+lazy val supportedScalaVersions = List("3.4.2", "3.3.0")
 
 lazy val root = project
   .in(file("."))
