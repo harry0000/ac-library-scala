@@ -4,13 +4,13 @@ import scala.reflect.ClassTag
 
 import io.github.acl4s.internal.{ceilPow2, rightOpenInterval, IPair}
 
-final case class LazySegtree[S, F](
-  n: Int
+final class LazySegtree[S, F](
+  private val n: Int
 )(using m: Monoid[S], mm: MapMonoid[S, F], tagS: ClassTag[S], tagF: ClassTag[F]) {
-  val log: Int = ceilPow2(n)
-  val size: Int = 1 << log
-  val d: Array[S] = Array.fill(2 * size)(m.e())
-  val lz: Array[F] = Array.fill(size)(mm.id())
+  private val log: Int = ceilPow2(n)
+  private val size: Int = 1 << log
+  private val d: Array[S] = Array.fill(2 * size)(m.e())
+  private val lz: Array[F] = Array.fill(size)(mm.id())
 
   private val _1_to_log = 1 to log
   private val _1_to_log_rev = _1_to_log.reverse

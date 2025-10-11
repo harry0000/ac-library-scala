@@ -10,7 +10,7 @@ import scala.collection.mutable
  *
  * @param n
  */
-case class Dsu(n: Int) {
+final class Dsu(private val n: Int) {
 
   /**
    * root node: -1 * component size
