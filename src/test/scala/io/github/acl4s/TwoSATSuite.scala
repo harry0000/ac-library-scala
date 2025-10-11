@@ -100,7 +100,7 @@ class TwoSATSuite extends munit.FunSuite {
   }
 
   test("stress ok") {
-    (0 until 10_000).foreach(phase => {
+    (0 until 10_000).foreach(_ => {
       val n = randomInt(1, 20)
       val m = randomInt(1, 100)
       val expect = Array.fill(n)(randomBoolean())

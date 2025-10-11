@@ -82,7 +82,7 @@ class ModIntSuite extends munit.FunSuite {
       val mod = 998_244_353
       val lmod = mod.toLong
 
-      (0 to 20).foreach(d => {
+      (0 to 20).foreach(_ => {
         val v = (0 until 10).flatMap(i =>
           Array(
             i,
@@ -108,7 +108,7 @@ class ModIntSuite extends munit.FunSuite {
       val mod = 1_000_000_007
       val lmod = mod.toLong
 
-      (0 to 20).foreach(d => {
+      (0 to 20).foreach(_ => {
         val v = (0 until 10).flatMap(i =>
           Array(
             i,
