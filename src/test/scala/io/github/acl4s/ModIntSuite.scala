@@ -2,10 +2,14 @@ package io.github.acl4s
 
 import io.github.acl4s.gcd
 
+import scala.annotation.nowarn
+
+// for ModInt imports
+@nowarn("msg=unused import")
 class ModIntSuite extends munit.FunSuite {
 
   test("DynamicModInt border") {
-    val ModInt = DynamicModInt
+    import DynamicModInt as ModInt
 
     (0 to 20).foreach(d => {
       val mod = Int.MaxValue - d
@@ -33,7 +37,8 @@ class ModIntSuite extends munit.FunSuite {
   }
 
   test("DynamicModInt 1") {
-    val ModInt = DynamicModInt
+    import DynamicModInt as ModInt
+
     ModInt.setMod(1)
 
     for {
@@ -50,7 +55,8 @@ class ModIntSuite extends munit.FunSuite {
   }
 
   test("DynamicModInt inv") {
-    val ModInt = DynamicModInt
+    import DynamicModInt as ModInt
+
     ModInt.setMod(998_244_353)
     (1 until 100_000).foreach(i => {
       val x = ModInt(i).inv.value
@@ -78,7 +84,8 @@ class ModIntSuite extends munit.FunSuite {
 
   test("StaticModInt border") {
     {
-      val ModInt = ModInt998244353
+      import ModInt998244353 as ModInt
+
       val mod = 998_244_353
       val lmod = mod.toLong
 
@@ -104,7 +111,8 @@ class ModIntSuite extends munit.FunSuite {
       })
     }
     {
-      val ModInt = ModInt1000000007
+      import ModInt1000000007 as ModInt
+
       val mod = 1_000_000_007
       val lmod = mod.toLong
 
@@ -181,7 +189,7 @@ class ModIntSuite extends munit.FunSuite {
       })
     }
     {
-      val ModInt = ModInt998244353
+      import ModInt998244353 as ModInt
 
       (1 until 100_000).foreach(i => {
         val x = ModInt(i).inv.value
@@ -189,7 +197,7 @@ class ModIntSuite extends munit.FunSuite {
       })
     }
     {
-      val ModInt = ModInt1000000007
+      import ModInt1000000007 as ModInt
 
       (1 until 100_000).foreach(i => {
         val x = ModInt(i).inv.value

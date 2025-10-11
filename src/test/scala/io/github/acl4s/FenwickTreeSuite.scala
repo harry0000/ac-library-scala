@@ -1,5 +1,9 @@
 package io.github.acl4s
 
+import scala.annotation.nowarn
+
+// for ModInt imports
+@nowarn("msg=unused import")
 class FenwickTreeSuite extends munit.FunSuite {
 
   /**
@@ -24,24 +28,21 @@ class FenwickTreeSuite extends munit.FunSuite {
     }
 
     {
-      type ModInt = DynamicModInt
-      val ModInt = DynamicModInt
+      import DynamicModInt as ModInt
 
       val fw = FenwickTree[ModInt](0)
       assertEquals(fw.sum(0, 0), ModInt(0))
     }
 
     {
-      type ModInt = ModInt998244353
-      val ModInt = ModInt998244353
+      import ModInt998244353 as ModInt
 
       val fw = FenwickTree[ModInt](0)
       assertEquals(fw.sum(0, 0), ModInt(0))
     }
 
     {
-      type ModInt = ModInt1000000007
-      val ModInt = ModInt1000000007
+      import ModInt1000000007 as ModInt
 
       val fw = FenwickTree[ModInt](0)
       assertEquals(fw.sum(0, 0), ModInt(0))
@@ -147,8 +148,8 @@ class FenwickTreeSuite extends munit.FunSuite {
   }
 
   test("DynamicModInt") {
-    type ModInt = DynamicModInt
-    val ModInt = DynamicModInt
+    import DynamicModInt as ModInt
+
     ModInt.setMod(11)
 
     (0 to 50).foreach(n => {

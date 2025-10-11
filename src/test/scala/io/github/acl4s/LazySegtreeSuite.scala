@@ -1,13 +1,16 @@
 package io.github.acl4s
 
+import scala.annotation.nowarn
+
+// for Mint imports
+@nowarn("msg=unused import")
 class LazySegtreeSuite extends munit.FunSuite {
 
   /**
    * @see https://atcoder.jp/contests/practice2/tasks/practice2_k
    */
   test("AtCoder Library Practice Contest K - Range Affine Range Sum") {
-    type Mint = ModInt998244353
-    val Mint = ModInt998244353
+    import ModInt998244353 as Mint
 
     final case class S(var a: Mint, var size: Int)
     object S {
