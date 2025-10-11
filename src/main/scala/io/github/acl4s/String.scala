@@ -8,7 +8,7 @@ import scala.reflect.ClassTag
  * Algorithms on Strings, Trees, and Sequences: Computer Science and
  * Computational Biology
  */
-private[acl4s] def zAlgorithmImpl[T: ClassTag](s: Array[T]): Array[Int] = {
+private[acl4s] def zAlgorithmImpl[T](s: Array[T]): Array[Int] = {
   val n = s.length
   if (n == 0) {
     return Array.empty
