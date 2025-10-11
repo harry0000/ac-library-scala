@@ -16,6 +16,6 @@ lazy val root = project
       "-unchecked",
       "-Wunused:all"
     ),
-    libraryDependencies += "org.scalameta" %% "munit" % "1.0.0" % Test,
+    libraryDependencies += "org.scalameta" %% "munit" % "1.2.0" % Test,
     Test / parallelExecution := false
   )
