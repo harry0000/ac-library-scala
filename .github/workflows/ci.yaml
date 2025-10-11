@@ -27,16 +27,14 @@ jobs:
           java-version: 21
           cache: sbt
       - name: 'Run Scalafmt'
-        run: sbt -v ++3.4.2 scalafmtSbt scalafmtAll
+        run: sbt -v ++3.7.2 scalafmtSbt scalafmtAll
   test:
     strategy:
       fail-fast: false
       matrix:
-        scala: [ 3.3.0, 3.4.2 ]
-        java: [ 20, 21 ]
-        exclude:
-          - scala: 3.3.0
-            java: 21
+        include:
+          - { scala: '3.3.0', java: '20' }
+          - { scala: '3.7.2', java: '21' }
     runs-on: ubuntu-latest
     env:
       # define Java options for both official sbt and sbt-extras
