@@ -11,8 +11,15 @@ import io.github.acl4s.internal.{rightOpenInterval, IPair}
  * @param m
  * @tparam T
  */
-case class FenwickTree[T: ClassTag](n: Int)(using m: AddSub[T]) {
+final class FenwickTree[T: ClassTag](
+  private val n: Int
+)(using m: AddSub[T]) {
   private val data: Array[T] = Array.fill(n)(m.e())
+
+  def this(array: Array[T])(using AddSub[T]) = {
+    this(array.length)
+    array.indices.foreach(i => add(i, array(i)))
+  }
 
   def add(index: Int, x: T): Unit = {
     assert(0 <= index && index < n)
@@ -41,16 +48,6 @@ case class FenwickTree[T: ClassTag](n: Int)(using m: AddSub[T]) {
   def sum(l: Int, r: Int): T = {
     assert(0 <= l && l <= r && r <= n)
     m.subtract(sum(r), sum(l))
-  }
-}
-
-object FenwickTree {
-  def apply[T: AddSub: ClassTag](array: Array[T]): FenwickTree[T] = {
-    val ft = FenwickTree[T](array.length)
-    array.indices.foreach(i => {
-      ft.add(i, array(i))
-    })
-    ft
   }
 }
 

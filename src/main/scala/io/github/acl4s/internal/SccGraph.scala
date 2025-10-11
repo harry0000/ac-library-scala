@@ -29,7 +29,7 @@ private[internal] object Csr {
  * R. Tarjan,
  * Depth-First Search and Linear Graph Algorithms
  */
-case class SccGraph(private val n: Int) {
+final class SccGraph(private val n: Int) {
   private val edges: mutable.Buffer[(Int, Edge)] = mutable.ListBuffer.empty
 
   def numVertices: Int = n
