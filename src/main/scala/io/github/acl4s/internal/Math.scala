@@ -150,3 +150,44 @@ private[acl4s] def invGcd(a: Long, b: Long): LPair = {
   if (m0 < 0L) { m0 += b / s }
   LPair(s, m0)
 }
+
+/**
+ * @param n `n < 2^32`
+ * @param m `1 <= m < 2^32`
+ * @param a
+ * @param b
+ * @return `sum_{i=0}^{n-1} floor((ai + b) / m) (mod 2^64)`
+ */
+private[acl4s] def floorSumUnsigned(n: Long, m: Long, a: Long, b: Long): Long = {
+  var _n = n
+  var _m = m
+  var _a = a
+  var _b = b
+  var ans = 0L
+
+  while (true) {
+    if (_a >= _m) {
+      ans += _n * (_n - 1) / 2 * (_a / _m)
+      _a %= _m
+    }
+    if (_b >= _m) {
+      ans += _n * (_b / _m)
+      _b %= _m
+    }
+
+    val yMax = _a * _n + _b
+    if (yMax < _m) { return ans }
+
+    // y_max < m * (n + 1)
+    // floor(y_max / m) <= n
+    _n = yMax / _m
+    _b = yMax % _m
+    // swap(m, a)
+    val tmp = _m
+    _m = _a
+    _a = tmp
+  }
+
+  // unreachable
+  ans
+}
