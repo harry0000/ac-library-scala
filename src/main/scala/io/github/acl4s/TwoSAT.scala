@@ -9,7 +9,7 @@ import scala.util.boundary, boundary.break
  *
  * @param n
  */
-class TwoSAT(private val n: Int) {
+final class TwoSAT(private val n: Int) {
   val answer = new Array[Boolean](n)
   private val scc = io.github.acl4s.internal.SccGraph(2 * n)
 
