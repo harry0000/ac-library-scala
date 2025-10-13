@@ -15,6 +15,12 @@ final class LazySegtree[S, F](
   private val _1_to_log = 1 to log
   private val _1_to_log_rev = _1_to_log.reverse
 
+  def this(array: Array[S])(using Monoid[S], MapMonoid[S, F], ClassTag[S], ClassTag[F]) = {
+    this(array.length)
+    (0 until n).foreach(i => { d(size + i) = array(i) })
+    (1 until size).reverse.foreach(update)
+  }
+
   private def update(k: Int): Unit = {
     d(k) = m.combine(d(2 * k), d(2 * k + 1))
   }
@@ -186,21 +192,6 @@ final class LazySegtree[S, F](
       (r & -r) != r
     }) {}
     0
-  }
-
-}
-
-object LazySegtree {
-
-  def apply[S, F](n: Int)(using Monoid[S], MapMonoid[S, F], ClassTag[S], ClassTag[F]): LazySegtree[S, F] = {
-    new LazySegtree(n)
-  }
-
-  def apply[S, F](array: Array[S])(using Monoid[S], MapMonoid[S, F], ClassTag[S], ClassTag[F]): LazySegtree[S, F] = {
-    val ret = LazySegtree(array.length)
-    (0 until ret.n).foreach(i => { ret.d(ret.size + i) = array(i) })
-    (1 until ret.size).reverse.foreach(ret.update)
-    ret
   }
 
 }

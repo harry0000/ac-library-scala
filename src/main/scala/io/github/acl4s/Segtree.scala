@@ -13,6 +13,12 @@ final class Segtree[T](
 
   private val _1_to_log = 1 to log
 
+  def this(array: Array[T])(using Monoid[T], ClassTag[T]) = {
+    this(array.length)
+    (0 until n).foreach(i => { d(size + i) = array(i) })
+    (1 until size).reverse.foreach(update)
+  }
+
   private def update(k: Int): Unit = {
     d(k) = m.combine(d(2 * k), d(2 * k + 1))
   }
@@ -112,21 +118,6 @@ final class Segtree[T](
       (r & -r) != r
     }) {}
     0
-  }
-
-}
-
-object Segtree {
-
-  def apply[T](n: Int)(using Monoid[T], ClassTag[T]): Segtree[T] = {
-    new Segtree(n)
-  }
-
-  def apply[T](array: Array[T])(using Monoid[T], ClassTag[T]): Segtree[T] = {
-    val ret = Segtree(array.length)
-    (0 until ret.n).foreach(i => { ret.d(ret.size + i) = array(i) })
-    (1 until ret.size).reverse.foreach(ret.update)
-    ret
   }
 
 }
