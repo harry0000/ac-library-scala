@@ -1,6 +1,10 @@
 package io.github.acl4s
 
-final class SccGraph(private val internal: io.github.acl4s.internal.SccGraph) {
+final class SccGraph private (private val internal: io.github.acl4s.internal.SccGraph) {
+
+  def this(n: Int) = {
+    this(io.github.acl4s.internal.SccGraph(n))
+  }
 
   def addEdge(from: Int, to: Int): Unit = {
     val n = internal.numVertices
@@ -13,10 +17,4 @@ final class SccGraph(private val internal: io.github.acl4s.internal.SccGraph) {
     internal.scc()
   }
 
-}
-
-object SccGraph {
-  def apply(n: Int): SccGraph = {
-    new SccGraph(internal.SccGraph(n))
-  }
 }
