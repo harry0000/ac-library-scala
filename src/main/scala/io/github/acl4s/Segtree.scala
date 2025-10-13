@@ -15,7 +15,7 @@ final class Segtree[T](
 
   def this(array: Array[T])(using Monoid[T], ClassTag[T]) = {
     this(array.length)
-    (0 until n).foreach(i => { d(size + i) = array(i) })
+    Array.copy(src = array, srcPos = 0, dest = d, destPos = size, length = n)
     (1 until size).reverse.foreach(update)
   }
 
