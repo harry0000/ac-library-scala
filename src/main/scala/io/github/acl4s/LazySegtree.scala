@@ -5,8 +5,9 @@ import scala.reflect.ClassTag
 import io.github.acl4s.internal.{ceilPow2, rightOpenInterval, IPair}
 
 final class LazySegtree[S, F](
-  private val n: Int
+  array: Array[S]
 )(using m: Monoid[S], mm: MapMonoid[S, F], tagS: ClassTag[S], tagF: ClassTag[F]) {
+  private val n: Int = array.length
   private val log: Int = ceilPow2(n)
   private val size: Int = 1 << log
   private val d: Array[S] = Array.fill(2 * size)(m.e())
@@ -15,10 +16,13 @@ final class LazySegtree[S, F](
   private val _1_to_log = 1 to log
   private val _1_to_log_rev = _1_to_log.reverse
 
-  def this(array: Array[S])(using Monoid[S], MapMonoid[S, F], ClassTag[S], ClassTag[F]) = {
-    this(array.length)
+  {
     (0 until n).foreach(i => { d(size + i) = array(i) })
     (1 until size).reverse.foreach(update)
+  }
+
+  def this(n: Int)(using m: Monoid[S], mm: MapMonoid[S, F], tagS: ClassTag[S], tagF: ClassTag[F]) = {
+    this(Array.fill(n)(m.e()))
   }
 
   private def update(k: Int): Unit = {
