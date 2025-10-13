@@ -35,7 +35,7 @@ final class SccGraph(private val n: Int) {
   def numVertices: Int = n
 
   def addEdge(from: Int, to: Int): Unit = {
-    edges += ((from, Edge(to)))
+    edges.addOne((from, Edge(to)))
   }
 
   /**

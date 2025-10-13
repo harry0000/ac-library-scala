@@ -19,13 +19,13 @@ final class MfGraph(private val n: Int) {
     assert(0L <= cap)
 
     val m = pos.size
-    pos.append(IPair(from, g(from).size))
+    pos.addOne(IPair(from, g(from).size))
 
     val fromId = g(from).size
     val toId = g(to).size + (if (from == to) { 1 }
                              else { 0 })
-    g(from).append(_Edge(to = to, rev = toId, cap))
-    g(to).append(_Edge(to = from, rev = fromId, cap = 0L))
+    g(from).addOne(_Edge(to = to, rev = toId, cap))
+    g(to).addOne(_Edge(to = from, rev = fromId, cap = 0L))
 
     m
   }

@@ -66,7 +66,7 @@ final class Dsu(private val n: Int) {
 
     val result = new mutable.ArrayBuffer[mutable.Buffer[Int]](n)
     (0 until n).foreach(i => {
-      result += new mutable.ArrayBuffer(group_size(i))
+      result.addOne(new mutable.ArrayBuffer(group_size(i)))
     })
     (0 until n).foreach(i => {
       result(leader_buf(i)) += i
