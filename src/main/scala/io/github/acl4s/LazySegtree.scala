@@ -17,7 +17,7 @@ final class LazySegtree[S, F](
   private val _1_to_log_rev = _1_to_log.reverse
 
   {
-    (0 until n).foreach(i => { d(size + i) = array(i) })
+    Array.copy(src = array, srcPos = 0, dest = d, destPos = size, length = n)
     (1 until size).reverse.foreach(update)
   }
 
