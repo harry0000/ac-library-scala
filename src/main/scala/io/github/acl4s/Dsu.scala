@@ -57,19 +57,19 @@ final class Dsu(private val n: Int) {
   }
 
   def groups(): collection.Seq[collection.Seq[Int]] = {
-    val leader_buf = new Array[Int](n)
-    val group_size = new Array[Int](n)
+    val leaderBuf = new Array[Int](n)
+    val groupSize = new Array[Int](n)
     (0 until n).foreach(i => {
-      leader_buf(i) = leader(i)
-      group_size(leader_buf(i)) += 1
+      leaderBuf(i) = leader(i)
+      groupSize(leaderBuf(i)) += 1
     })
 
     val result = new mutable.ArrayBuffer[mutable.Buffer[Int]](n)
     (0 until n).foreach(i => {
-      result.addOne(new mutable.ArrayBuffer(group_size(i)))
+      result.addOne(new mutable.ArrayBuffer(groupSize(i)))
     })
     (0 until n).foreach(i => {
-      result(leader_buf(i)) += i
+      result(leaderBuf(i)) += i
     })
 
     result.filter(_.nonEmpty)

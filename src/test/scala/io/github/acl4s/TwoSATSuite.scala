@@ -41,8 +41,8 @@ class TwoSATSuite extends munit.FunSuite {
           else { y(i) }
         )
         .sorted
-      val min_distance = (1 until n).map(i => res(i) - res(i - 1)).min
-      assert(min_distance >= d)
+      val minDistance = (1 until n).map(i => res(i) - res(i - 1)).min
+      assert(minDistance >= d)
     }
 
     {
