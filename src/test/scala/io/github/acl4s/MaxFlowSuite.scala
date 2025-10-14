@@ -1,5 +1,7 @@
 package io.github.acl4s
 
+import io.github.acl4s.MfGraph.Edge
+
 class MaxFlowSuite extends munit.FunSuite {
 
   /**
