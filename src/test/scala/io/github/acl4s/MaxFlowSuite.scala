@@ -1,5 +1,7 @@
 package io.github.acl4s
 
+import io.github.acl4s.MfGraph.Edge
+
 class MaxFlowSuite extends munit.FunSuite {
 
   /**
@@ -163,8 +165,8 @@ class MaxFlowSuite extends munit.FunSuite {
   test("invalid") {
     val g = MfGraph(2)
 
-    interceptMessage[java.lang.AssertionError]("assertion failed") { g.flow(0, 0) }
-    interceptMessage[java.lang.AssertionError]("assertion failed") { g.flow(0, 0, 0L) }
+    interceptMessage[AssertionError]("assertion failed") { g.flow(0, 0) }
+    interceptMessage[AssertionError]("assertion failed") { g.flow(0, 0, 0L) }
   }
 
   test("stress") {

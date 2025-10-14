@@ -5,11 +5,9 @@ import io.github.acl4s.internal.IPair
 import scala.collection.mutable
 import scala.util.boundary, boundary.break
 
-final case class Edge(from: Int, to: Int, cap: Long, flow: Long)
-
-final private[acl4s] case class _Edge(to: Int, rev: Int, var cap: Long)
-
 final class MfGraph(private val n: Int) {
+  import MfGraph.*
+
   private val pos: mutable.Buffer[IPair] = mutable.ArrayBuffer.empty
   private val g: Array[mutable.Buffer[_Edge]] = Array.fill(n)(mutable.ArrayBuffer.empty)
 
@@ -138,4 +136,9 @@ final class MfGraph(private val n: Int) {
     }
     visited
   }
+}
+
+object MfGraph {
+  final case class Edge(from: Int, to: Int, cap: Long, flow: Long)
+  final private[MfGraph] case class _Edge(to: Int, rev: Int, var cap: Long)
 }
