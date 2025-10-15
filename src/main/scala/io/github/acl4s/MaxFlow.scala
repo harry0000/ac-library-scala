@@ -140,5 +140,5 @@ final class MfGraph(private val n: Int) {
 
 object MfGraph {
   final case class Edge(from: Int, to: Int, cap: Long, flow: Long)
-  final private[MfGraph] case class _Edge(to: Int, rev: Int, var cap: Long)
+  final private case class _Edge(to: Int, rev: Int, var cap: Long)
 }

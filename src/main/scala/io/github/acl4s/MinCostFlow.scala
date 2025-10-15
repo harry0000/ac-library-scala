@@ -207,5 +207,5 @@ final class McfGraph(
 
 object McfGraph {
   final case class Edge(from: Int, to: Int, cap: Long, var flow: Long, cost: Long)
-  final private[McfGraph] case class _Edge(to: Int, var rev: Int, var cap: Long, cost: Long)
+  final private case class _Edge(to: Int, var rev: Int, var cap: Long, cost: Long)
 }
