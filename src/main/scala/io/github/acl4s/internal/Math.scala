@@ -79,7 +79,6 @@ val bSPRP = Array(2L, 7L, 61L)
  * @param v `0 <= n`
  * @return
  */
-@annotation.nowarn("msg=Non local returns are no longer supported;")
 private[acl4s] def isPrime(v: Int): Boolean = {
   v match {
     case _ if v <= 1     => return false
@@ -94,7 +93,9 @@ private[acl4s] def isPrime(v: Int): Boolean = {
     while (d % 2 == 0) { d /= 2 }
     d
   }
-  for (a <- bSPRP) {
+  var i = 0
+  while (i < bSPRP.length) {
+    val a = bSPRP(i)
     var t = d
     var y = powMod(a, t, n.toInt)
     while (t != n_1 && y != 1L && y != n_1) {
@@ -104,6 +105,7 @@ private[acl4s] def isPrime(v: Int): Boolean = {
     if (y != n_1 && t % 2 == 0) {
       return false
     }
+    i += 1
   }
   true
 }
