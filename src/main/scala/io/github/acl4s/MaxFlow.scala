@@ -3,7 +3,6 @@ package io.github.acl4s
 import io.github.acl4s.internal.IPair
 
 import scala.collection.mutable
-import scala.util.boundary, boundary.break
 
 final class MfGraph(private val n: Int) {
   import MfGraph.*
@@ -65,18 +64,18 @@ final class MfGraph(private val n: Int) {
       queue.clear()
       queue.enqueue(s)
 
-      boundary {
-        while (queue.nonEmpty) {
-          val v = queue.dequeue()
-          g(v).foreach(e => {
-            // if (e.cap == 0 || level[e.to] >= 0) continue;
-            if (e.cap != 0 && level(e.to) < 0) {
-              level(e.to) = level(v) + 1
-              // if (e.to == t) return;
-              if (e.to == t) { break(()) }
-              queue.enqueue(e.to)
-            }
-          })
+      while (queue.nonEmpty) {
+        val v = queue.dequeue()
+        var i = 0
+        while (i < g(v).size) {
+          val e = g(v)(i)
+          // if (e.cap == 0 || level[e.to] >= 0) continue;
+          if (e.cap != 0 && level(e.to) < 0) {
+            level(e.to) = level(v) + 1
+            if (e.to == t) { return }
+            queue.enqueue(e.to)
+          }
+          i += 1
         }
       }
     }
