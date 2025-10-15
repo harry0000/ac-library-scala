@@ -4,9 +4,7 @@ import io.github.acl4s.internal.Csr
 
 import scala.collection.mutable
 
-final class McfGraph(
-  private val n: Int
-) {
+final class McfGraph(private val n: Int) {
   import McfGraph.*
 
   private val _edges: mutable.IndexedBuffer[Edge] = mutable.ArrayBuffer.empty
