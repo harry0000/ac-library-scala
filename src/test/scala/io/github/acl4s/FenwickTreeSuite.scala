@@ -49,11 +49,12 @@ class FenwickTreeSuite extends munit.FunSuite {
     }
 
     {
-      given Modulus[1_000_000_009] = Modulus[1_000_000_009]()
-      type ModInt = StaticModInt[1_000_000_009]
-      val ModInt = StaticModInt
+      import StaticModInt as ModInt
 
-      val fw = FenwickTree[ModInt](0)
+      type MOD = 1_000_000_009
+      given Modulus[MOD] = Modulus[MOD]()
+
+      val fw = FenwickTree[ModInt[MOD]](0)
       assertEquals(fw.sum(0, 0), ModInt(0))
     }
   }
@@ -127,12 +128,12 @@ class FenwickTreeSuite extends munit.FunSuite {
   }
 
   test("StaticModInt") {
+    import StaticModInt as ModInt
+
     given Modulus[11] = Modulus[11]()
-    type ModInt = StaticModInt[11]
-    val ModInt = StaticModInt
 
     (0 to 50).foreach(n => {
-      val fw = FenwickTree[ModInt](n)
+      val fw = FenwickTree[ModInt[11]](n)
       (0 until n).foreach(i => {
         fw.add(i, ModInt(i.toLong * i))
       })
