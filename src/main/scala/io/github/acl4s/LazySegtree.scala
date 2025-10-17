@@ -2,13 +2,13 @@ package io.github.acl4s
 
 import scala.reflect.ClassTag
 
-import io.github.acl4s.internal.{ceilPow2, rightOpenInterval, IPair}
+import io.github.acl4s.internal.IPair
 
 final class LazySegtree[S, F](
   array: Array[S]
 )(using m: Monoid[S], mm: MapMonoid[S, F], tagS: ClassTag[S], tagF: ClassTag[F]) {
   private val n: Int = array.length
-  private val log: Int = ceilPow2(n)
+  private val log: Int = internal.ceilPow2(n)
   private val size: Int = 1 << log
   private val d: Array[S] = Array.fill(2 * size)(m.e())
   private val lz: Array[F] = Array.fill(size)(mm.id())
@@ -58,7 +58,7 @@ final class LazySegtree[S, F](
   }
 
   def prod(range: Range): S = {
-    val IPair(l, r) = rightOpenInterval(range)
+    val IPair(l, r) = internal.rightOpenInterval(range)
     prod(l, r)
   }
 
@@ -99,7 +99,7 @@ final class LazySegtree[S, F](
   }
 
   def applyRange(range: Range, f: F): Unit = {
-    val IPair(l, r) = rightOpenInterval(range)
+    val IPair(l, r) = internal.rightOpenInterval(range)
     applyRange(l, r, f)
   }
 

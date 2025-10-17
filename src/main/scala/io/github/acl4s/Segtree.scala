@@ -2,12 +2,12 @@ package io.github.acl4s
 
 import scala.reflect.ClassTag
 
-import io.github.acl4s.internal.{ceilPow2, rightOpenInterval, IPair}
+import io.github.acl4s.internal.IPair
 
 final class Segtree[T](
   private val n: Int
 )(using m: Monoid[T], tag: ClassTag[T]) {
-  private val log: Int = ceilPow2(n)
+  private val log: Int = internal.ceilPow2(n)
   private val size: Int = 1 << log
   private val d: Array[T] = Array.fill(2 * size)(m.e())
 
@@ -36,7 +36,7 @@ final class Segtree[T](
   }
 
   def prod(range: Range): T = {
-    val IPair(l, r) = rightOpenInterval(range)
+    val IPair(l, r) = internal.rightOpenInterval(range)
     prod(l, r)
   }
 

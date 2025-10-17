@@ -2,7 +2,7 @@ package io.github.acl4s
 
 import scala.annotation.targetName
 
-import io.github.acl4s.internal.{Barrett, LPair}
+import io.github.acl4s.internal.LPair
 
 private[acl4s] inline def applyIntImpl(value: Int, mod: Int): Int = {
   var x = value % mod
@@ -272,11 +272,11 @@ final case class DynamicModInt private (private var _value: Int) extends ModIntB
 }
 
 object DynamicModInt {
-  private var bt = Barrett(-1)
+  private var bt = internal.Barrett(-1)
 
   def setMod(mod: Int): Unit = {
     assert(1 <= mod)
-    bt = Barrett(mod)
+    bt = internal.Barrett(mod)
   }
 
   def apply(): DynamicModInt = {

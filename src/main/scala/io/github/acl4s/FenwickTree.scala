@@ -2,7 +2,7 @@ package io.github.acl4s
 
 import scala.reflect.ClassTag
 
-import io.github.acl4s.internal.{rightOpenInterval, IPair}
+import io.github.acl4s.internal.IPair
 
 /**
  * Reference: https://en.wikipedia.org/wiki/Fenwick_tree
@@ -41,7 +41,7 @@ final class FenwickTree[T: ClassTag](
   }
 
   def sum(range: Range): T = {
-    val IPair(l, r) = rightOpenInterval(range)
+    val IPair(l, r) = internal.rightOpenInterval(range)
     sum(l, r)
   }
 
