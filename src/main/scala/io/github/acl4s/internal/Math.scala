@@ -53,7 +53,7 @@ final private[acl4s] case class Barrett(m: Int) {
  * @param m `1 <= m`
  * @return `(x ** n) % m`
  */
-private[internal] def powMod(x: Long, n: Long, m: Int): Long = {
+private def powMod(x: Long, n: Long, m: Int): Long = {
   if (m == 1) { return 0L }
 
   val _m = m.toLong

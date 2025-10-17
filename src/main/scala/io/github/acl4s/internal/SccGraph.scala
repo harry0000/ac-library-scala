@@ -2,7 +2,7 @@ package io.github.acl4s.internal
 
 import scala.collection.mutable
 
-private[internal] case class Edge(to: Int)
+private case class Edge(to: Int)
 
 /**
  * Reference:
