@@ -140,8 +140,9 @@ class ModIntSuite extends munit.FunSuite {
   }
 
   test("StaticModInt 1") {
+    import StaticModInt as ModInt
+
     given Modulus[1] = Modulus[1]()
-    val ModInt = StaticModInt
 
     for {
       i <- 0 until 100
@@ -158,8 +159,9 @@ class ModIntSuite extends munit.FunSuite {
 
   test("StaticModInt inv") {
     {
+      import StaticModInt as ModInt
+
       given Modulus[11] = Modulus[11]()
-      val ModInt = StaticModInt
 
       (1 until 11).foreach(i => {
         val x = ModInt(i).inv.value
@@ -167,8 +169,9 @@ class ModIntSuite extends munit.FunSuite {
       })
     }
     {
+      import StaticModInt as ModInt
+
       given Modulus[12] = Modulus[12]()
-      val ModInt = StaticModInt
 
       (1 until 12).foreach(i => {
         if (gcd(i, 12) == 1) {
@@ -178,8 +181,9 @@ class ModIntSuite extends munit.FunSuite {
       })
     }
     {
+      import StaticModInt as ModInt
+
       given Modulus[1_000_000_008] = Modulus[1_000_000_008]()
-      val ModInt = StaticModInt
 
       (1 until 100_000).foreach(i => {
         if (gcd(i, 1_000_000_008) == 1) {

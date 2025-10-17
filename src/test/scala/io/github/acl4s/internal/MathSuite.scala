@@ -53,6 +53,14 @@ class MathSuite extends munit.FunSuite {
     assertEquals(isPrime(1_000_000_009), true)
   }
 
+  test("isPrime() convolution MODs") {
+    import io.github.acl4s.Convolution.*
+
+    assertEquals(isPrime(MOD1), true)
+    assertEquals(isPrime(MOD2), true)
+    assertEquals(isPrime(MOD3), true)
+  }
+
   def buildBorderFromIsPrimeNaive(): Map[Int, Boolean] = {
     val map = (0 to 10_000)
       .flatMap(i =>
@@ -145,6 +153,74 @@ class MathSuite extends munit.FunSuite {
       assert(x >= 0)
       assert(x <= b / g)
       assertEquals((BigInt(x) * a2 % b).toLong, g2 % b)
+    }
+  }
+
+  def factors(m: Int): collection.IndexedSeq[Int] = {
+    var _m = m
+    val result = mutable.ArrayBuffer.empty[Int]
+    Iterator
+      .from(start = 2, step = 1)
+      .takeWhile(i => i.toLong * i <= m)
+      .filter(_m % _ == 0)
+      .foreach(i => {
+        result.addOne(i)
+        while (_m % i == 0) { _m /= i }
+      })
+    if (_m > 1) { result.addOne(_m) }
+    result
+  }
+
+  def isPrimitiveRoot(m: Int, g: Int): Boolean = {
+    assert(1 <= g && g < m)
+    factors(m - 1).forall(x => powMod(g, (m - 1) / x, m) != 1)
+  }
+
+  test("primitiveRoot test") {
+    for {
+      i <- 0 until 1_000
+      x = Int.MaxValue - i
+      if isPrime(x)
+    } {
+      assert(isPrimitiveRoot(x, primitiveRoot(x)))
+    }
+  }
+
+  test("primitiveRoot constant") {
+    // format: off
+    assert(isPrimitiveRoot(            2, primitiveRoot(            2)))
+    assert(isPrimitiveRoot(            3, primitiveRoot(            3)))
+    assert(isPrimitiveRoot(            5, primitiveRoot(            5)))
+    assert(isPrimitiveRoot(            7, primitiveRoot(            7)))
+    assert(isPrimitiveRoot(           11, primitiveRoot(           11)))
+    assert(isPrimitiveRoot(  998_244_353, primitiveRoot(  998_244_353)))
+    assert(isPrimitiveRoot(1_000_000_007, primitiveRoot(1_000_000_007)))
+
+    assert(isPrimitiveRoot(  469_762_049, primitiveRoot(  469_762_049)))
+    assert(isPrimitiveRoot(  167_772_161, primitiveRoot(  167_772_161)))
+    assert(isPrimitiveRoot(  754_974_721, primitiveRoot(  754_974_721)))
+    assert(isPrimitiveRoot(  324_013_369, primitiveRoot(  324_013_369)))
+    assert(isPrimitiveRoot(  831_143_041, primitiveRoot(  831_143_041)))
+    assert(isPrimitiveRoot(1_685_283_601, primitiveRoot(1_685_283_601)))
+    // format: on
+  }
+
+  test("primitiveRoot naive") {
+    for {
+      m <- 2 to 10_000
+      if isPrime(m)
+    } {
+      val n = primitiveRoot(m)
+      assert(1 <= n)
+      assert(n < m)
+      var x = 1
+      for (i <- 1 to (m - 2)) {
+        x = (x.toLong * n % m).toInt
+        // x == n^i
+        assertNotEquals(x, 1, s"m=$m, n=$n, i=$i")
+      }
+      x = (x.toLong * n % m).toInt
+      assertEquals(x, 1, s"m=$m, n=$n")
     }
   }
 
