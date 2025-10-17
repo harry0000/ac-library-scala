@@ -20,7 +20,7 @@ def convolution[M <: Int](
   }
 }
 
-private[acl4s] def convolutionNaive[M <: Int](
+private def convolutionNaive[M <: Int](
   a: Array[ModInt[M]],
   b: Array[ModInt[M]]
 )(using Modulus[M]): collection.IndexedSeq[ModInt[M]] = {
@@ -45,7 +45,7 @@ private[acl4s] def convolutionNaive[M <: Int](
   ans
 }
 
-private[acl4s] def convolutionFft[M <: Int](
+private def convolutionFft[M <: Int](
   a: Array[ModInt[M]],
   b: Array[ModInt[M]]
 )(using Modulus[M]): collection.IndexedSeq[ModInt[M]] = {
@@ -310,7 +310,7 @@ object FftInfo {
   }
 }
 
-private[acl4s] object Convolution {
+private object Convolution {
   import scala.compiletime.ops.int.{`*`, `+`, `<<`}
 
   val MAX_AB_BIT: 24 = 24

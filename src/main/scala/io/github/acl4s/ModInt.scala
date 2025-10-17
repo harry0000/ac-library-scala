@@ -4,19 +4,19 @@ import scala.annotation.targetName
 
 import io.github.acl4s.internal.LPair
 
-private[acl4s] inline def applyIntImpl(value: Int, mod: Int): Int = {
+private inline def applyIntImpl(value: Int, mod: Int): Int = {
   var x = value % mod
   if (x < 0) { x += mod }
   x
 }
 
-private[acl4s] inline def applyLongImpl(value: Long, mod: Int): Long = {
+private inline def applyLongImpl(value: Long, mod: Int): Long = {
   var x = value % mod
   if (x < 0L) { x += mod }
   x
 }
 
-private[acl4s] inline def addImpl[T <: Int, M <: ModIntBase[T]](lhs: M, rhs: M): Int = {
+private inline def addImpl[T <: Int, M <: ModIntBase[T]](lhs: M, rhs: M): Int = {
   var v = lhs.value.toLong + rhs.value
   if (v >= lhs.mod) {
     v -= lhs.mod
@@ -24,7 +24,7 @@ private[acl4s] inline def addImpl[T <: Int, M <: ModIntBase[T]](lhs: M, rhs: M):
   v.toInt
 }
 
-private[acl4s] inline def subImpl[T <: Int, M <: ModIntBase[T]](lhs: M, rhs: M): Int = {
+private inline def subImpl[T <: Int, M <: ModIntBase[T]](lhs: M, rhs: M): Int = {
   var v = lhs.value - rhs.value
   if (v < 0) {
     v += lhs.mod
