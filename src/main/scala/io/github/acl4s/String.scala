@@ -1,14 +1,12 @@
 package io.github.acl4s
 
-import scala.reflect.ClassTag
-
 /**
  * Reference:
  * D. Gusfield,
  * Algorithms on Strings, Trees, and Sequences: Computer Science and
  * Computational Biology
  */
-private[acl4s] def zAlgorithmImpl[T](s: Array[T]): Array[Int] = {
+private def zAlgorithmImpl[T](s: Array[T]): Array[Int] = {
   val n = s.length
   if (n == 0) {
     return Array.empty

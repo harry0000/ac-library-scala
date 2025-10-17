@@ -47,26 +47,22 @@ object Add {
   }
 
   given Add[DynamicModInt] with {
-    private val zero = DynamicModInt()
-    override def e(): DynamicModInt = zero
+    override def e(): DynamicModInt = DynamicModInt()
     override def combine(a: DynamicModInt, b: DynamicModInt): DynamicModInt = a + b
   }
 
   given Add[ModInt998244353] with {
-    private val zero = ModInt998244353()
-    override def e(): ModInt998244353 = zero
+    override def e(): ModInt998244353 = ModInt998244353()
     override def combine(a: ModInt998244353, b: ModInt998244353): ModInt998244353 = a + b
   }
 
   given Add[ModInt1000000007] with {
-    private val zero = ModInt1000000007()
-    override def e(): ModInt1000000007 = zero
+    override def e(): ModInt1000000007 = ModInt1000000007()
     override def combine(a: ModInt1000000007, b: ModInt1000000007): ModInt1000000007 = a + b
   }
 
   given [T <: Int](using Modulus[T]): Add[StaticModInt[T]] with {
-    private val zero = StaticModInt[T]()
-    override def e(): StaticModInt[T] = zero
+    override def e(): StaticModInt[T] = StaticModInt()
     override def combine(a: StaticModInt[T], b: StaticModInt[T]): StaticModInt[T] = a + b
   }
 

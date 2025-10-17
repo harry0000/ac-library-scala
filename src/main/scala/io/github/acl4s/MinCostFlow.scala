@@ -1,7 +1,5 @@
 package io.github.acl4s
 
-import io.github.acl4s.internal.Csr
-
 import scala.collection.mutable
 
 final class McfGraph(private val n: Int) {
@@ -53,7 +51,7 @@ final class McfGraph(private val n: Int) {
         elist.addOne((e.from, _Edge(e.to, -1, e.cap - e.flow, e.cost)))
         elist.addOne((e.to, _Edge(e.from, -1, e.flow, -e.cost)))
       })
-      val _g = Csr(n, elist)
+      val _g = internal.Csr(n, elist)
       (0 until m).foreach(i => {
         val e = _edges(i)
         edgeIdx(i) += _g.start(e.from)
@@ -77,7 +75,7 @@ final class McfGraph(private val n: Int) {
   final private case class DualDist(var dual: Long, var dist: Long)
 
   private def _slope(
-    g: Csr[_Edge],
+    g: internal.Csr[_Edge],
     s: Int,
     t: Int,
     flowLimit: Long

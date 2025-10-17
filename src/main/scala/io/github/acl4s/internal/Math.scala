@@ -13,7 +13,7 @@ private[acl4s] def safeMod(x: Long, m: Long): Long = {
   v
 }
 
-val ULongMaxValue = BigInt(2).pow(64) - 1
+private val ULongMaxValue = BigInt(2).pow(64) - 1
 
 /**
  * Fast modular by barrett reduction
@@ -53,7 +53,7 @@ final private[acl4s] case class Barrett(m: Int) {
  * @param m `1 <= m`
  * @return `(x ** n) % m`
  */
-private[internal] def powMod(x: Long, n: Long, m: Int): Long = {
+private def powMod(x: Long, n: Long, m: Int): Long = {
   if (m == 1) { return 0L }
 
   val _m = m.toLong
@@ -69,7 +69,7 @@ private[internal] def powMod(x: Long, n: Long, m: Int): Long = {
 }
 
 // strong probable-prime with base b, If v < 2.pow(32)
-val bSPRP = Array(2L, 7L, 61L)
+private val bSPRP = Array(2L, 7L, 61L)
 
 /**
  * Reference:
