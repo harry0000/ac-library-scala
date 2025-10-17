@@ -2,8 +2,6 @@ package io.github.acl4s
 
 import StaticModInt as ModInt
 
-import scala.reflect.ClassTag
-
 def convolution[M <: Int](
   a: Array[ModInt[M]],
   b: Array[ModInt[M]]

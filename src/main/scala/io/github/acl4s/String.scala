@@ -1,7 +1,5 @@
 package io.github.acl4s
 
-import scala.reflect.ClassTag
-
 /**
  * Reference:
  * D. Gusfield,
