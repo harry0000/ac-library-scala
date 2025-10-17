@@ -9,7 +9,7 @@ private case class Edge(to: Int)
  * R. Tarjan,
  * Depth-First Search and Linear Graph Algorithms
  */
-final class SccGraph(private val n: Int) {
+final private[acl4s] class SccGraph(private val n: Int) {
   private val edges: mutable.Buffer[(Int, Edge)] = mutable.ListBuffer.empty
 
   def numVertices: Int = n
