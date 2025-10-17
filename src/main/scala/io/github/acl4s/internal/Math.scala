@@ -154,6 +154,51 @@ private[acl4s] def invGcd(a: Long, b: Long): LPair = {
 }
 
 /**
+ * primitive root
+ * @param m must be prime
+ * @return primitive root (and minimum in now)
+ */
+private[acl4s] def primitiveRoot(m: Int): Int = {
+  m match {
+    case 2           => return 1
+    case 167_772_161 => return 3
+    case 469_762_049 => return 3
+    case 754_974_721 => return 11
+    case 998_244_353 => return 3
+    case _           =>
+  }
+
+  val divs = new Array[Int](20)
+  divs(0) = 2
+  var cnt = 1
+  var x = (m - 1) / 2
+  while (x % 2 == 0) { x /= 2 }
+  var i = 3
+  while (i.toLong * i <= x.toLong) {
+    if (x % i == 0) {
+      divs(cnt) = i
+      cnt += 1
+      while (x % i == 0) {
+        x /= i
+      }
+    }
+    i += 2
+  }
+  if (x > 1) {
+    divs(cnt) = x
+    cnt += 1
+  }
+  var g = 2
+  while (true) {
+    if ((0 until cnt).forall(i => powMod(g.toLong, ((m - 1) / divs(i)).toLong, m) != 1)) {
+      return g
+    }
+    g += 1
+  }
+  g
+}
+
+/**
  * @param n `n < 2^32`
  * @param m `1 <= m < 2^32`
  * @param a
