@@ -96,7 +96,7 @@ class StringSuite extends munit.FunSuite {
 
   test("suffixArray SALCP naive") {
     for (n <- 1 to 5) {
-      val m = (0 until n).foldLeft(1) { case (acc, _) => acc * 4 }
+      val m = 1 << (n * 2) // 4^n
       for (f <- 0 until m) {
         val s = new Array[Int](n)
         val maxC = {
@@ -118,7 +118,7 @@ class StringSuite extends munit.FunSuite {
       }
     }
     for (n <- 1 to 10) {
-      val m = (0 until n).foldLeft(1) { case (acc, _) => acc * 2 }
+      val m = 1 << n
       for (f <- 0 until m) {
         val s = new Array[Int](n)
         val maxC = {
@@ -205,7 +205,29 @@ class StringSuite extends munit.FunSuite {
     assertEquals(lcpArrayArbitrary(Array(Long.MinValue, Long.MinValue, Long.MaxValue), sa).toSeq, lcp)
   }
 
-  test("zAlgorithm") {
+  private def zAlgorithmNaive[T](s: Array[T]): Array[Int] = {
+    val n = s.length
+    val z = new Array[Int](n)
+    for (i <- 0 until n) {
+      while (i + z(i) < n && s(z(i)) == s(i + z(i))) {
+        z(i) += 1
+      }
+    }
+    z
+  }
+
+  test("zAlgorithm empty") {
+    assertEquals(zAlgorithm("").toSeq, Seq.empty[Int])
+    assertEquals(zAlgorithmImpl(Array.empty[Int]).toSeq, Seq.empty[Int])
+  }
+
+  test("zAlgorithm simple") {
+    {
+      val str = "abab"
+      val lcp = zAlgorithm(str)
+
+      assertEquals(lcp.toSeq, Seq(4, 0, 2, 0))
+    }
     {
       val str = "abracadabra"
       val lcp = zAlgorithm(str)
@@ -217,6 +239,36 @@ class StringSuite extends munit.FunSuite {
       val lcp = zAlgorithm(str)
 
       assertEquals(lcp.toSeq, Seq(9, 0, 7, 0, 5, 0, 3, 0, 1))
+    }
+
+    assertEquals(zAlgorithmImpl(Array(1, 10, 1, 10)).toSeq, Seq(4, 0, 2, 0))
+    assertEquals(zAlgorithmImpl(Array(0, 0, 0, 0, 0, 0, 0)).toSeq, zAlgorithmNaive(Array(0, 0, 0, 0, 0, 0, 0)).toSeq)
+  }
+
+  test("zAlgorithm naive") {
+    for (n <- 1 to 6) {
+      val m = 1 << (n * 2) // 4^n
+      for (f <- 0 until m) {
+        val s = new Array[Int](n)
+        var g = f
+        for (i <- 0 until n) {
+          s(i) = g % 4
+          g /= 4
+        }
+        assertEquals(zAlgorithmImpl(s).toSeq, zAlgorithmNaive(s).toSeq)
+      }
+    }
+    for (n <- 1 to 10) {
+      val m = 1 << n
+      for (f <- 0 until m) {
+        val s = new Array[Int](n)
+        var g = f
+        for (i <- 0 until n) {
+          s(i) = g % 2
+          g /= 2
+        }
+        assertEquals(zAlgorithmImpl(s).toSeq, zAlgorithmNaive(s).toSeq)
+      }
     }
   }
 
