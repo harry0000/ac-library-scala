@@ -110,8 +110,8 @@ class MinCostFlowSuite extends munit.FunSuite {
   test("out of range") {
     val g = McfGraph(10)
 
-    interceptMessage[AssertionError]("assertion failed") { g.slope(-1, 3) }
-    interceptMessage[AssertionError]("assertion failed") { g.slope(3, 3) }
+    interceptMessage[IllegalArgumentException]("requirement failed") { g.slope(-1, 3) }
+    interceptMessage[IllegalArgumentException]("requirement failed") { g.slope(3, 3) }
   }
 
   test("self loop") {
@@ -137,8 +137,8 @@ class MinCostFlowSuite extends munit.FunSuite {
   test("invalid") {
     val g = McfGraph(2)
 
-    interceptMessage[AssertionError]("assertion failed") { g.addEdge(0, 0, -1L, 0L) }
-    interceptMessage[AssertionError]("assertion failed") { g.addEdge(0, 0, -1L, 0L) }
+    interceptMessage[IllegalArgumentException]("requirement failed") { g.addEdge(0, 0, -1L, 0L) }
+    interceptMessage[IllegalArgumentException]("requirement failed") { g.addEdge(0, 0, -1L, 0L) }
   }
 
   test("stress") {

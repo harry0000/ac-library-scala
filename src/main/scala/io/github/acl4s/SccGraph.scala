@@ -8,8 +8,8 @@ final class SccGraph private (private val internal: io.github.acl4s.internal.Scc
 
   def addEdge(from: Int, to: Int): Unit = {
     val n = internal.numVertices
-    assert(0 <= from && from < n)
-    assert(0 <= to && to < n)
+    require(0 <= from && from < n)
+    require(0 <= to && to < n)
     internal.addEdge(from, to)
   }
 

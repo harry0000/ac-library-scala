@@ -8,10 +8,10 @@ final class McfGraph(private val n: Int) {
   private val _edges: mutable.IndexedBuffer[Edge] = mutable.ArrayBuffer.empty
 
   def addEdge(from: Int, to: Int, cap: Long, cost: Long): Int = {
-    assert(0 <= from && from < n)
-    assert(0 <= to && to < n)
-    assert(0L <= cap)
-    assert(0L <= cost)
+    require(0 <= from && from < n)
+    require(0 <= to && to < n)
+    require(0L <= cap)
+    require(0L <= cost)
 
     val m = _edges.size
     _edges.addOne(Edge(from, to, cap, 0L, cost))
@@ -21,7 +21,7 @@ final class McfGraph(private val n: Int) {
   def edges: collection.IndexedSeq[Edge] = _edges
 
   def getEdge(i: Int): Edge = {
-    assert(0 <= i && i < _edges.size)
+    require(0 <= i && i < _edges.size)
     _edges(i)
   }
 
@@ -30,9 +30,9 @@ final class McfGraph(private val n: Int) {
   }
 
   def slope(s: Int, t: Int, flowLimit: Long = Long.MaxValue): collection.Seq[(Long, Long)] = {
-    assert(0 <= s && s < n)
-    assert(0 <= t && t < n)
-    assert(s != t)
+    require(0 <= s && s < n)
+    require(0 <= t && t < n)
+    require(s != t)
 
     val m = _edges.size
     val edgeIdx = new Array[Int](m)

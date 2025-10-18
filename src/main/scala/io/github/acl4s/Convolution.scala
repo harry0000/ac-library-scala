@@ -198,7 +198,7 @@ def convolutionLong(
 
   import Convolution.*
 
-  assert(n + m - 1 <= (1 << MAX_AB_BIT))
+  require(n + m - 1 <= (1 << MAX_AB_BIT))
 
   val c1 = convolutionLongMod[MOD1.type](a, b)
   val c2 = convolutionLongMod[MOD2.type](a, b)
@@ -250,7 +250,7 @@ private def convolutionLongMod[M <: Int](
   }
 
   val z = 1 << internal.ceilPow2(n + m - 1)
-  assert((mod.value - 1) % z == 0)
+  require((mod.value - 1) % z == 0)
 
   val a2 = a.map(ModInt(_))
   val b2 = b.map(ModInt(_))

@@ -22,7 +22,7 @@ final class FenwickTree[T: ClassTag](
   }
 
   def add(index: Int, x: T): Unit = {
-    assert(0 <= index && index < n)
+    require(0 <= index && index < n)
     var p = index + 1
     while (p <= n) {
       data(p - 1) = m.combine(data(p - 1), x)
@@ -46,7 +46,7 @@ final class FenwickTree[T: ClassTag](
   }
 
   def sum(l: Int, r: Int): T = {
-    assert(0 <= l && l <= r && r <= n)
+    require(0 <= l && l <= r && r <= n)
     m.subtract(sum(r), sum(l))
   }
 }

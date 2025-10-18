@@ -165,8 +165,8 @@ class MaxFlowSuite extends munit.FunSuite {
   test("invalid") {
     val g = MfGraph(2)
 
-    interceptMessage[AssertionError]("assertion failed") { g.flow(0, 0) }
-    interceptMessage[AssertionError]("assertion failed") { g.flow(0, 0, 0L) }
+    interceptMessage[IllegalArgumentException]("requirement failed") { g.flow(0, 0) }
+    interceptMessage[IllegalArgumentException]("requirement failed") { g.flow(0, 0, 0L) }
   }
 
   test("stress") {

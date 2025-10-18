@@ -24,14 +24,14 @@ final class Segtree[T](
   }
 
   def set(index: Int, x: T): Unit = {
-    assert(0 <= index && index < n)
+    require(0 <= index && index < n)
     val p = index + size
     d(p) = x
     _1_to_log.foreach { i => { update(p >> i) } }
   }
 
   def get(index: Int): T = {
-    assert(0 <= index && index < n)
+    require(0 <= index && index < n)
     d(index + size)
   }
 
@@ -41,7 +41,7 @@ final class Segtree[T](
   }
 
   def prod(left: Int, right: Int): T = {
-    assert(0 <= left && left <= right && right <= n)
+    require(0 <= left && left <= right && right <= n)
     var sml = m.e()
     var smr = m.e()
     var l = left + size
@@ -65,8 +65,8 @@ final class Segtree[T](
   def allProd(): T = d(1)
 
   def maxRight(left: Int, f: T => Boolean): Int = {
-    assert(0 <= left && left <= n)
-    assert(f(m.e()))
+    require(0 <= left && left <= n)
+    require(f(m.e()))
     if (left == n) return n
     var l = left + size
     var sm = m.e()
@@ -93,8 +93,8 @@ final class Segtree[T](
   }
 
   def minLeft(right: Int, f: T => Boolean): Int = {
-    assert(0 <= right && right <= n)
-    assert(f(m.e()))
+    require(0 <= right && right <= n)
+    require(f(m.e()))
     if (right == 0) { return 0 }
     var r = right + size
     var sm = m.e()

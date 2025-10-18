@@ -3,7 +3,7 @@ package io.github.acl4s
 import io.github.acl4s.internal.LPair
 
 def powMod(x: Long, n: Long, m: Int): Int = {
-  assert(0L <= n && 1 <= m)
+  require(0L <= n && 1 <= m)
   if (m == 1) { return 0 }
   val bt = internal.Barrett(m)
   var _n = n
@@ -18,7 +18,7 @@ def powMod(x: Long, n: Long, m: Int): Int = {
 }
 
 def invMod(x: Long, m: Long): Long = {
-  assert(1L <= m);
+  require(1L <= m);
   val LPair(z, inv) = internal.invGcd(x, m);
   assert(z == 1L)
   inv

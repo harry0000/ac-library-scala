@@ -43,7 +43,7 @@ final class LazySegtree[S, F](
   }
 
   def set(index: Int, x: S): Unit = {
-    assert(0 <= index && index < n)
+    require(0 <= index && index < n)
     val p = index + size
     _1_to_log_rev.foreach(i => { push(p >> i) })
     d(p) = x
@@ -51,7 +51,7 @@ final class LazySegtree[S, F](
   }
 
   def get(index: Int): S = {
-    assert(0 <= index && index < n)
+    require(0 <= index && index < n)
     val p = index + size
     _1_to_log_rev.foreach(i => { push(p >> i) })
     d(p)
@@ -63,7 +63,7 @@ final class LazySegtree[S, F](
   }
 
   def prod(left: Int, right: Int): S = {
-    assert(0 <= left && left <= right && right <= n)
+    require(0 <= left && left <= right && right <= n)
     if (left == right) { return m.e() }
     var l = left + size
     var r = right + size
@@ -91,7 +91,7 @@ final class LazySegtree[S, F](
   def allProd: S = d(1)
 
   def applySingle(index: Int, f: F): Unit = {
-    assert(0 <= index && index < n)
+    require(0 <= index && index < n)
     val p = index + size
     _1_to_log_rev.foreach(i => { push(p >> i) })
     d(p) = mm.mapping(f, d(p))
@@ -104,7 +104,7 @@ final class LazySegtree[S, F](
   }
 
   def applyRange(left: Int, right: Int, f: F): Unit = {
-    assert(0 <= left && left <= right && right <= n)
+    require(0 <= left && left <= right && right <= n)
     if (left == right) { return }
     var l = left + size
     var r = right + size
@@ -139,8 +139,8 @@ final class LazySegtree[S, F](
   }
 
   def maxRight(left: Int, g: S => Boolean): Int = {
-    assert(0 <= left && left <= n)
-    assert(g(m.e()))
+    require(0 <= left && left <= n)
+    require(g(m.e()))
     if (left == n) { return n }
     var l = left + size
     _1_to_log_rev.foreach(i => { push(l >> i) })
@@ -169,8 +169,8 @@ final class LazySegtree[S, F](
   }
 
   def minLeft(right: Int, g: S => Boolean): Int = {
-    assert(0 <= right && right <= n)
-    assert(g(m.e()))
+    require(0 <= right && right <= n)
+    require(g(m.e()))
     if (right == 0) { return 0 }
     var r = right + size
     _1_to_log_rev.foreach(i => { push((r - 1) >> i) })

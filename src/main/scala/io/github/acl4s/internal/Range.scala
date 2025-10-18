@@ -1,7 +1,7 @@
 package io.github.acl4s.internal
 
 private[acl4s] def rightOpenInterval(range: Range): IPair = {
-  assert(range.step == 1 || range.step == -1)
+  require(range.step == 1 || range.step == -1)
   if (range.isEmpty) {
     IPair(range.start, range.start)
   } else if (range.step > 0) {
