@@ -116,7 +116,7 @@ private[acl4s] def isPrime(v: Int): Boolean = {
  * @return (g, x) s.t. g = gcd(a, b), xa = g (mod b), 0 <= x < b/g
  */
 private[acl4s] def invGcd(a: Long, b: Long): LPair = {
-  val _a = safeMod(a, b);
+  val _a = safeMod(a, b)
   if (_a == 0L) {
     return LPair(b, 0L)
   }

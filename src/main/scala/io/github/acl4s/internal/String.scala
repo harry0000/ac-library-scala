@@ -60,8 +60,8 @@ private val ThresholdDoubling = 40
  */
 private[acl4s] def saIs(s: Array[Int], upper: Int): Array[Int] = {
   val n = s.length
-  if (n == 0) return Array.empty[Int]
-  if (n == 1) return Array(0)
+  if (n == 0) { return Array.empty[Int] }
+  if (n == 1) { return Array(0) }
   if (n == 2) {
     if (s(0) < s(1)) {
       return Array(0, 1)

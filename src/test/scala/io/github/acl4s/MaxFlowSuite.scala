@@ -116,7 +116,7 @@ class MaxFlowSuite extends munit.FunSuite {
     assertEquals(g.getEdge(1), Edge(0, 2, 1L, 1L))
     assertEquals(g.getEdge(2), Edge(1, 2, 1L, 1L))
 
-    g.changeEdge(0, 100L, 10L);
+    g.changeEdge(0, 100L, 10L)
     assertEquals(g.getEdge(0), Edge(0, 1, 100L, 10L))
 
     assertEquals(g.flow(0, 2), 0L)
@@ -165,8 +165,8 @@ class MaxFlowSuite extends munit.FunSuite {
   test("invalid") {
     val g = MfGraph(2)
 
-    interceptMessage[AssertionError]("assertion failed") { g.flow(0, 0) }
-    interceptMessage[AssertionError]("assertion failed") { g.flow(0, 0, 0L) }
+    interceptMessage[IllegalArgumentException]("requirement failed") { g.flow(0, 0) }
+    interceptMessage[IllegalArgumentException]("requirement failed") { g.flow(0, 0, 0L) }
   }
 
   test("stress") {

@@ -2,7 +2,7 @@ package io.github.acl4s
 
 import scala.reflect.ClassTag
 
-import io.github.acl4s.internal.IPair
+import io.github.acl4s.internal.{foreach, IPair}
 
 /**
  * Reference: https://en.wikipedia.org/wiki/Fenwick_tree
@@ -18,11 +18,11 @@ final class FenwickTree[T: ClassTag](
 
   def this(array: Array[T])(using AddSub[T]) = {
     this(array.length)
-    array.indices.foreach(i => add(i, array(i)))
+    foreach(array.indices)(i => { add(i, array(i)) })
   }
 
   def add(index: Int, x: T): Unit = {
-    assert(0 <= index && index < n)
+    require(0 <= index && index < n)
     var p = index + 1
     while (p <= n) {
       data(p - 1) = m.combine(data(p - 1), x)
@@ -46,7 +46,7 @@ final class FenwickTree[T: ClassTag](
   }
 
   def sum(l: Int, r: Int): T = {
-    assert(0 <= l && l <= r && r <= n)
+    require(0 <= l && l <= r && r <= n)
     m.subtract(sum(r), sum(l))
   }
 }

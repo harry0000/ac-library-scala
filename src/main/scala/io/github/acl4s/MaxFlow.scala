@@ -11,9 +11,9 @@ final class MfGraph(private val n: Int) {
   private val g: Array[mutable.Buffer[_Edge]] = Array.fill(n)(mutable.ArrayBuffer.empty)
 
   def addEdge(from: Int, to: Int, cap: Long): Int = {
-    assert(from < n)
-    assert(to < n)
-    assert(0L <= cap)
+    require(from < n)
+    require(to < n)
+    require(0L <= cap)
 
     val m = pos.size
     pos.addOne(IPair(from, g(from).size))
@@ -28,7 +28,7 @@ final class MfGraph(private val n: Int) {
   }
 
   def getEdge(i: Int): Edge = {
-    assert(0 <= i && i < pos.size)
+    require(0 <= i && i < pos.size)
 
     val IPair(_1, _2) = pos(i)
     val _e = g(_1)(_2)
@@ -39,8 +39,8 @@ final class MfGraph(private val n: Int) {
   def edges(): Seq[Edge] = pos.indices.map(getEdge)
 
   def changeEdge(i: Int, newCap: Long, newFlow: Long): Unit = {
-    assert(0 <= i && i < pos.size)
-    assert(0L <= newFlow && newFlow <= newCap)
+    require(0 <= i && i < pos.size)
+    require(0L <= newFlow && newFlow <= newCap)
 
     val IPair(_1, _2) = pos(i)
     val _e = g(_1)(_2)
@@ -50,9 +50,9 @@ final class MfGraph(private val n: Int) {
   }
 
   def flow(s: Int, t: Int, flowLimit: Long = Long.MaxValue): Long = {
-    assert(0 <= s && s < n)
-    assert(0 <= t && t < n)
-    assert(s != t)
+    require(0 <= s && s < n)
+    require(0 <= t && t < n)
+    require(s != t)
 
     val level: Array[Int] = new Array(n)
     val iter: Array[Int] = new Array(n)

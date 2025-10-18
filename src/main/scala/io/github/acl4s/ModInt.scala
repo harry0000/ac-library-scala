@@ -275,7 +275,7 @@ object DynamicModInt {
   private var bt = internal.Barrett(-1)
 
   def setMod(mod: Int): Unit = {
-    assert(1 <= mod)
+    require(1 <= mod)
     bt = internal.Barrett(mod)
   }
 

@@ -12,8 +12,8 @@ final class TwoSAT(private val n: Int) {
   private val scc = io.github.acl4s.internal.SccGraph(2 * n)
 
   def addClause(i: Int, f: Boolean, j: Int, g: Boolean): Unit = {
-    assert(0 <= i && i < n)
-    assert(0 <= j && j < n)
+    require(0 <= i && i < n)
+    require(0 <= j && j < n)
     scc.addEdge(2 * i + (if (f) { 0 }
                          else { 1 }),
                 2 * j + (if (g) { 1 }
