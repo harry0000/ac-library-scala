@@ -2,6 +2,8 @@ package io.github.acl4s
 
 import scala.collection.mutable
 
+import io.github.acl4s.internal.foreach
+
 /**
  * Implement (union by size) + (path compression)
  * Reference:
@@ -59,16 +61,16 @@ final class Dsu(private val n: Int) {
   def groups(): collection.Seq[collection.Seq[Int]] = {
     val leaderBuf = new Array[Int](n)
     val groupSize = new Array[Int](n)
-    (0 until n).foreach(i => {
+    foreach(0 until n)(i => {
       leaderBuf(i) = leader(i)
       groupSize(leaderBuf(i)) += 1
     })
 
     val result = new mutable.ArrayBuffer[mutable.Buffer[Int]](n)
-    (0 until n).foreach(i => {
+    foreach(0 until n)(i => {
       result.addOne(new mutable.ArrayBuffer(groupSize(i)))
     })
-    (0 until n).foreach(i => {
+    foreach(0 until n)(i => {
       result(leaderBuf(i)) += i
     })
 

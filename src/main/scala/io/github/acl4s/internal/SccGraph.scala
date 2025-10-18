@@ -35,7 +35,7 @@ final private[acl4s] class SccGraph(private val n: Int) {
       ord(v) = nowOrd
       nowOrd += 1
       visited.push(v)
-      (g.start(v) until g.start(v + 1)).foreach(i => {
+      foreach(g.start(v) until g.start(v + 1))(i => {
         val to = g.eList(i).to
         if (ord(to) == -1) {
           dfs(to)
@@ -58,10 +58,10 @@ final private[acl4s] class SccGraph(private val n: Int) {
       }
     }
 
-    (0 until n).foreach(i => {
+    foreach(0 until n)(i => {
       if (ord(i) == -1) { dfs(i) }
     })
-    (0 until n).foreach(i => {
+    foreach(0 until n)(i => {
       ids(i) = groupNum - 1 - ids(i)
     })
 
@@ -73,10 +73,10 @@ final private[acl4s] class SccGraph(private val n: Int) {
     val counts = new Array[Int](groupNums)
     ids.foreach(x => { counts(x) += 1 })
     val groups = new mutable.ArrayBuffer[mutable.Buffer[Int]](n)
-    (0 until groupNums).foreach(i => {
+    foreach(0 until groupNums)(i => {
       groups += new mutable.ArrayBuffer[Int](counts(i))
     })
-    (0 until n).foreach(i => {
+    foreach(0 until n)(i => {
       groups(ids(i)) += i
     })
 

@@ -2,7 +2,7 @@ package io.github.acl4s
 
 import scala.reflect.ClassTag
 
-import io.github.acl4s.internal.IPair
+import io.github.acl4s.internal.{foreach, IPair}
 
 final class LazySegtree[S, F](
   array: Array[S]
@@ -18,7 +18,7 @@ final class LazySegtree[S, F](
 
   {
     Array.copy(src = array, srcPos = 0, dest = d, destPos = size, length = n)
-    (1 until size).reverse.foreach(update)
+    foreach((1 until size).reverse)(update)
   }
 
   def this(n: Int)(using m: Monoid[S], mm: MapMonoid[S, F], tagS: ClassTag[S], tagF: ClassTag[F]) = {
@@ -45,15 +45,15 @@ final class LazySegtree[S, F](
   def set(index: Int, x: S): Unit = {
     require(0 <= index && index < n)
     val p = index + size
-    _1_to_log_rev.foreach(i => { push(p >> i) })
+    foreach(_1_to_log_rev)(i => { push(p >> i) })
     d(p) = x
-    _1_to_log.foreach(i => { update(p >> i) })
+    foreach(_1_to_log)(i => { update(p >> i) })
   }
 
   def get(index: Int): S = {
     require(0 <= index && index < n)
     val p = index + size
-    _1_to_log_rev.foreach(i => { push(p >> i) })
+    foreach(_1_to_log_rev)(i => { push(p >> i) })
     d(p)
   }
 
@@ -67,7 +67,7 @@ final class LazySegtree[S, F](
     if (left == right) { return m.e() }
     var l = left + size
     var r = right + size
-    _1_to_log_rev.foreach(i => {
+    foreach(_1_to_log_rev)(i => {
       if (((l >> i) << i) != l) { push(l >> i) }
       if (((r >> i) << i) != r) { push((r - 1) >> i) }
     })
@@ -93,9 +93,9 @@ final class LazySegtree[S, F](
   def applySingle(index: Int, f: F): Unit = {
     require(0 <= index && index < n)
     val p = index + size
-    _1_to_log_rev.foreach(i => { push(p >> i) })
+    foreach(_1_to_log_rev)(i => { push(p >> i) })
     d(p) = mm.mapping(f, d(p))
-    _1_to_log.foreach(i => { update(p >> i) })
+    foreach(_1_to_log)(i => { update(p >> i) })
   }
 
   def applyRange(range: Range, f: F): Unit = {
@@ -108,7 +108,7 @@ final class LazySegtree[S, F](
     if (left == right) { return }
     var l = left + size
     var r = right + size
-    _1_to_log_rev.foreach(i => {
+    foreach(_1_to_log_rev)(i => {
       if (((l >> i) << i) != l) { push(l >> i) }
       if (((r >> i) << i) != r) { push((r - 1) >> i) }
     })
@@ -132,7 +132,7 @@ final class LazySegtree[S, F](
       r = r2
     }
 
-    _1_to_log.foreach(i => {
+    foreach(_1_to_log)(i => {
       if (((l >> i) << i) != l) { update(l >> i) }
       if (((r >> i) << i) != r) { update((r - 1) >> i) }
     })
@@ -143,7 +143,7 @@ final class LazySegtree[S, F](
     require(g(m.e()))
     if (left == n) { return n }
     var l = left + size
-    _1_to_log_rev.foreach(i => { push(l >> i) })
+    foreach(_1_to_log_rev)(i => { push(l >> i) })
     var sm = m.e()
     while ({
       // do
@@ -173,7 +173,7 @@ final class LazySegtree[S, F](
     require(g(m.e()))
     if (right == 0) { return 0 }
     var r = right + size
-    _1_to_log_rev.foreach(i => { push((r - 1) >> i) })
+    foreach(_1_to_log_rev)(i => { push((r - 1) >> i) })
     var sm = m.e()
     while ({
       // do

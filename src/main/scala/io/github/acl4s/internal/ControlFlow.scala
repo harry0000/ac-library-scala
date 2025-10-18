@@ -1,17 +1,9 @@
 package io.github.acl4s.internal
 
-import scala.annotation.tailrec
-
-@tailrec
-private def foreachImpl(range: Range, i: Int, f: Int => Unit): Unit = {
-  if (range.contains(i)) {
+inline def foreach(range: Range)(inline f: Int => Unit): Unit = {
+  var i = range.start
+  while (range.contains(i)) {
     f(i)
-    foreachImpl(range, i + range.step, f)
-  } else {
-    ()
+    i += range.step
   }
-}
-
-inline def foreach(range: Range)(f: Int => Unit): Unit = {
-  foreachImpl(range, range.start, f)
 }

@@ -2,7 +2,7 @@ package io.github.acl4s
 
 import scala.reflect.ClassTag
 
-import io.github.acl4s.internal.IPair
+import io.github.acl4s.internal.{foreach, IPair}
 
 final class Segtree[T](
   private val n: Int
@@ -16,7 +16,7 @@ final class Segtree[T](
   def this(array: Array[T])(using Monoid[T], ClassTag[T]) = {
     this(array.length)
     Array.copy(src = array, srcPos = 0, dest = d, destPos = size, length = n)
-    (1 until size).reverse.foreach(update)
+    foreach((1 until size).reverse)(update)
   }
 
   private def update(k: Int): Unit = {
@@ -27,7 +27,7 @@ final class Segtree[T](
     require(0 <= index && index < n)
     val p = index + size
     d(p) = x
-    _1_to_log.foreach { i => { update(p >> i) } }
+    foreach(_1_to_log)(i => { update(p >> i) })
   }
 
   def get(index: Int): T = {

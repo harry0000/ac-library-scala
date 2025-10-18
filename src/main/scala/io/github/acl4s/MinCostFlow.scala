@@ -2,6 +2,8 @@ package io.github.acl4s
 
 import scala.collection.mutable
 
+import io.github.acl4s.internal.foreach
+
 final class McfGraph(private val n: Int) {
   import McfGraph.*
 
@@ -42,7 +44,7 @@ final class McfGraph(private val n: Int) {
       val redgeIdx = new Array[Int](m)
       val elist = new mutable.ArrayBuffer[(Int, _Edge)](2 * m)
 
-      (0 until m).foreach(i => {
+      foreach(0 until m)(i => {
         val e = _edges(i)
         edgeIdx(i) = degree(e.from)
         redgeIdx(i) = degree(e.to)
@@ -52,7 +54,7 @@ final class McfGraph(private val n: Int) {
         elist.addOne((e.to, _Edge(e.from, -1, e.flow, -e.cost)))
       })
       val _g = internal.Csr(n, elist)
-      (0 until m).foreach(i => {
+      foreach(0 until m)(i => {
         val e = _edges(i)
         edgeIdx(i) += _g.start(e.from)
         redgeIdx(i) += _g.start(e.to)
@@ -64,7 +66,7 @@ final class McfGraph(private val n: Int) {
 
     val result = _slope(g, s, t, flowLimit)
 
-    (0 until m).foreach(i => {
+    foreach(0 until m)(i => {
       val e = g.eList(edgeIdx(i))
       _edges(i).flow = _edges(i).cap - e.cap
     })
@@ -123,26 +125,25 @@ final class McfGraph(private val n: Int) {
             // dist[v] >= 0 (all reduced cost are positive)
             // dist[v] <= (n-1)C
             val DualDist(dualV, distV) = dualDist(v)
-            for {
-              i <- g.start(v).until(g.start(v + 1))
-              e = g.eList(i)
+            foreach(g.start(v) until g.start(v + 1))(i => {
+              val e = g.eList(i)
               // if (!e.cap) continue;
-              if e.cap > 0
-            } {
-              // |-dual[e.to] + dual[v]| <= (n-1)C
-              // cost <= C - -(n-1)C + 0 = nC
-              val cost = e.cost - dualDist(e.to).dual + dualV
-              if (dualDist(e.to).dist - distV > cost) {
-                val distTo = distV + cost
-                dualDist(e.to).dist = distTo
-                prevE(e.to) = e.rev
-                if (distTo == distV) {
-                  qMin.addOne(e.to)
-                } else {
-                  heap.enqueue((distTo, e.to))
+              if (e.cap > 0) {
+                // |-dual[e.to] + dual[v]| <= (n-1)C
+                // cost <= C - -(n-1)C + 0 = nC
+                val cost = e.cost - dualDist(e.to).dual + dualV
+                if (dualDist(e.to).dist - distV > cost) {
+                  val distTo = distV + cost
+                  dualDist(e.to).dist = distTo
+                  prevE(e.to) = e.rev
+                  if (distTo == distV) {
+                    qMin.addOne(e.to)
+                  } else {
+                    heap.enqueue((distTo, e.to))
+                  }
                 }
               }
-            }
+            })
           }
         }
       }
@@ -150,17 +151,16 @@ final class McfGraph(private val n: Int) {
         return false
       }
 
-      for {
-        v <- 0 until n
+      foreach(0 until n)(v => {
         // if (!vis[v]) continue;
-        if visited(v)
-      } {
-        // dual[v] = dual[v] - dist[t] + dist[v]
-        //         = dual[v] - (shortest(s, t) + dual[s] - dual[t]) + (shortest(s, v) + dual[s] - dual[v])
-        //         = - shortest(s, t) + dual[t] + shortest(s, v)
-        //         = shortest(s, v) - shortest(s, t) >= 0 - (n-1)C
-        dualDist(v).dual -= dualDist(t).dist - dualDist(v).dist
-      }
+        if (visited(v)) {
+          // dual[v] = dual[v] - dist[t] + dist[v]
+          //         = dual[v] - (shortest(s, t) + dual[s] - dual[t]) + (shortest(s, v) + dual[s] - dual[v])
+          //         = - shortest(s, t) + dual[t] + shortest(s, v)
+          //         = shortest(s, v) - shortest(s, t) >= 0 - (n-1)C
+          dualDist(v).dual -= dualDist(t).dist - dualDist(v).dist
+        }
+      })
       true
     }
 

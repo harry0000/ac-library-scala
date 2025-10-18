@@ -9,7 +9,7 @@ private[acl4s] object Csr {
     for ((from, _) <- edges) {
       csr.start(from + 1) += 1
     }
-    (1 to n).foreach(i => {
+    foreach(1 to n)(i => {
       csr.start(i) += csr.start(i - 1)
     })
     val counter = csr.start.clone()
