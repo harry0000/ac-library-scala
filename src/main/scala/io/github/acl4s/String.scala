@@ -25,8 +25,11 @@ def suffixArrayArbitrary[T](s: Array[T])(using Ordering[T]): Array[Int] = {
 }
 
 def suffixArray(s: String): Array[Int] = {
-  val s2 = s.toCharArray.map(_.toInt)
-  internal.saIs(s2, s2.maxOption.getOrElse(255))
+  val s2 = s.toCharArray.map(ch => {
+    require(0 <= ch && ch <= 255)
+    ch.toInt
+  })
+  internal.saIs(s2, 255)
 }
 
 /**
@@ -41,7 +44,7 @@ def lcpArrayArbitrary[T](s: Array[T], sa: Array[Int]): Array[Int] = {
 
   val rnk = new Array[Int](n)
   foreach(sa.indices)(i => {
-    assert(0 <= sa(i) && sa(i) < n)
+    require(0 <= sa(i) && sa(i) < n)
     rnk(sa(i)) = i
   })
   val lcp = new Array[Int](n - 1)
