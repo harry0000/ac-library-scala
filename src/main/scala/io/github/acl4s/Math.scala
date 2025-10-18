@@ -18,8 +18,8 @@ def powMod(x: Long, n: Long, m: Int): Int = {
 }
 
 def invMod(x: Long, m: Long): Long = {
-  require(1L <= m);
-  val LPair(z, inv) = internal.invGcd(x, m);
+  require(1L <= m)
+  val LPair(z, inv) = internal.invGcd(x, m)
   assert(z == 1L)
   inv
 }
