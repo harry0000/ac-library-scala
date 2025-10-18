@@ -67,7 +67,7 @@ final class Segtree[T](
   def maxRight(left: Int, f: T => Boolean): Int = {
     require(0 <= left && left <= n)
     require(f(m.e()))
-    if (left == n) return n
+    if (left == n) { return n }
     var l = left + size
     var sm = m.e()
     while ({
