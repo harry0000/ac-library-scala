@@ -1,65 +1,64 @@
 package io.github.acl4s
 
-import scala.annotation.nowarn
-
-// for Mint imports
-@nowarn("msg=unused import")
 class LazySegtreeSuite extends munit.FunSuite {
 
   /**
    * @see https://atcoder.jp/contests/practice2/tasks/practice2_k
    */
   test("AtCoder Library Practice Contest K - Range Affine Range Sum") {
-    import ModInt998244353 as Mint
+    val Mod = 998_244_353L
 
-    final case class S(var a: Mint, var size: Int)
+    final case class S(var sum: Int, var size: Int)
     object S {
-      val e: S = new S(Mint(0), 0)
-      def apply(a: Int): S = new S(Mint(a), 1)
+      def apply(value: Int): S = new S(value, 1)
+      def e(): S = S(0, 0)
     }
 
     given Monoid[S] with {
-      final override def e(): S = S.e
-      final override def combine(a: S, b: S): S = S(a.a + b.a, a.size + b.size)
+      final override def e(): S = S.e()
+      final override def combine(a: S, b: S): S = S(
+        ((a.sum.toLong + b.sum) % Mod).toInt,
+        a.size + b.size
+      )
     }
 
-    final case class Pair(b: Int, c: Int)
-    object Pair {
-      val e: Pair = new Pair(1, 0)
+    final case class F(b: Int, c: Int)
+    object F {
+      def id(): F = F(1, 0)
     }
 
-    given MapMonoid[S, Pair] with {
-      final override def id(): Pair = Pair.e
-      final override def mapping(f: Pair, s: S): S = {
-        val Pair(b, c) = f
-        s.a *= Mint(b)
-        s.a += Mint(c.toLong * s.size)
+    given MapMonoid[S, F] with {
+      final override def id(): F = F.id()
+      final override def mapping(f: F, s: S): S = {
+        val F(b, c) = f
+        s.sum = ((s.sum.toLong * b + s.size.toLong * c) % Mod).toInt
         s
       }
-      final override def composition(l: Pair, r: Pair): Pair = {
-        Pair(
-          Mint(l.b.toLong * r.b).value,
-          Mint(l.b.toLong * r.c + l.c).value
-        )
+
+      final override def composition(l: F, r: F): F = {
+        val nb = (l.b.toLong * r.b) % Mod
+        val nc = (l.b.toLong * r.c + l.c) % Mod
+        F(nb.toInt, nc.toInt)
       }
     }
 
-    val a = Array(1, 2, 3, 4, 5).map(S(_))
-    val segtree = LazySegtree(a)
+    val segtree = LazySegtree(
+      Array(1, 2, 3, 4, 5).map(S(_))
+    )
 
-    assertEquals(segtree.prod(0, 5).a.value, 15)
+    assertEquals(segtree.prod(0, 5).sum, 15)
 
-    segtree.applyRange(2, 4, Pair(100, 101))
+    segtree.applyRange(2, 4, F(100, 101))
 
-    assertEquals(segtree.prod(0, 3).a.value, 404)
+    assertEquals(segtree.prod(0, 3).sum, 404)
 
-    segtree.applyRange(1, 3, Pair(102, 103))
+    segtree.applyRange(1, 3, F(102, 103))
 
-    assertEquals(segtree.prod(2, 5).a.value, 41511)
+    assertEquals(segtree.prod(2, 5).sum, 41511)
 
-    segtree.applyRange(2, 5, Pair(104, 105))
+    segtree.applyRange(2, 5, F(104, 105))
 
-    assertEquals(segtree.prod(0, 5).a.value, 4317767)
+    assertEquals(segtree.prod(0, 5).sum, 4317767)
   }
 
   /**
