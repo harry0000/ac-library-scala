@@ -335,9 +335,9 @@ private object Convolution {
   //
   // private val M1M2M3: M1M2.type x ToLong[MOD3.type] = MOD1.toLong * MOD2 * MOD3
 
-  val I1: Long = internal.invGcd(M2M3, MOD1.toLong).b
-  val I2: Long = internal.invGcd(M1M3, MOD2.toLong).b
-  val I3: Long = internal.invGcd(M1M2, MOD3.toLong).b
+  val I1: Long = internal.invGcd(M2M3, MOD1.toLong)._2
+  val I2: Long = internal.invGcd(M1M3, MOD2.toLong)._2
+  val I3: Long = internal.invGcd(M1M2, MOD3.toLong)._2
 
   given Modulus[MOD1.type] = Modulus()
   given Modulus[MOD2.type] = Modulus()

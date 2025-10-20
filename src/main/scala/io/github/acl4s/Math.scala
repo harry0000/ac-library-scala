@@ -1,6 +1,6 @@
 package io.github.acl4s
 
-import io.github.acl4s.internal.{foreach, LPair}
+import io.github.acl4s.internal.foreach
 
 def powMod(x: Long, n: Long, m: Int): Int = {
   require(0L <= n && 1 <= m)
@@ -19,7 +19,7 @@ def powMod(x: Long, n: Long, m: Int): Int = {
 
 def invMod(x: Long, m: Long): Long = {
   require(1L <= m)
-  val LPair(z, inv) = internal.invGcd(x, m)
+  val (z, inv) = internal.invGcd(x, m)
   assert(z == 1L)
   inv
 }
@@ -70,7 +70,7 @@ def crt(
       // -> x = (r1 - r0) / g * inv(u0) (mod u1)
 
       // im = inv(u0) (mod u1) (0 <= im < u1)
-      val LPair(g, im) = internal.invGcd(m0, m1)
+      val (g, im) = internal.invGcd(m0, m1)
 
       val u1 = m1 / g
       // |r1 - r0| < (m0 + m1) <= lcm(m0, m1)

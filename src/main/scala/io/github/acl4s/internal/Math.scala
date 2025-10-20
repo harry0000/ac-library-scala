@@ -7,7 +7,7 @@ import scala.math.BigInt
  * @param m `1 <= m`
  * @return x mod m
  */
-private[acl4s] def safeMod(x: Long, m: Long): Long = {
+def safeMod(x: Long, m: Long): Long = {
   var v = x % m
   if (v < 0L) { v += m }
   v
@@ -20,7 +20,7 @@ private val ULongMaxValue = BigInt(2).pow(64) - 1
  * Reference: https://en.wikipedia.org/wiki/Barrett_reduction
  * NOTE: reconsider after Ice Lake
  */
-final private[acl4s] case class Barrett(m: Int) {
+final case class Barrett(m: Int) {
   val im = ULongMaxValue / m + 1L
 
   /**
@@ -53,7 +53,7 @@ final private[acl4s] case class Barrett(m: Int) {
  * @param m `1 <= m`
  * @return `(x ** n) % m`
  */
-private def powMod(x: Long, n: Long, m: Int): Long = {
+def powMod(x: Long, n: Long, m: Int): Long = {
   if (m == 1) { return 0L }
 
   val _m = m.toLong
@@ -79,7 +79,7 @@ private val bSPRP = Array(2L, 7L, 61L)
  * @param v `0 <= n`
  * @return
  */
-private[acl4s] def isPrime(v: Int): Boolean = {
+def isPrime(v: Int): Boolean = {
   v match {
     case _ if v <= 1     => return false
     case 2 | 7 | 61      => return true
@@ -115,10 +115,10 @@ private[acl4s] def isPrime(v: Int): Boolean = {
  * @param b `1 <= b`
  * @return (g, x) s.t. g = gcd(a, b), xa = g (mod b), 0 <= x < b/g
  */
-private[acl4s] def invGcd(a: Long, b: Long): LPair = {
+def invGcd(a: Long, b: Long): (Long, Long) = {
   val _a = safeMod(a, b)
   if (_a == 0L) {
-    return LPair(b, 0L)
+    return (b, 0L)
   }
 
   // Contracts:
@@ -150,7 +150,7 @@ private[acl4s] def invGcd(a: Long, b: Long): LPair = {
   // by [3]: |m0| <= b/g
   // by g != b: |m0| < b/g
   if (m0 < 0L) { m0 += b / s }
-  LPair(s, m0)
+  (s, m0)
 }
 
 /**
@@ -158,7 +158,7 @@ private[acl4s] def invGcd(a: Long, b: Long): LPair = {
  * @param m must be prime
  * @return primitive root (and minimum in now)
  */
-private[acl4s] def primitiveRoot(m: Int): Int = {
+def primitiveRoot(m: Int): Int = {
   m match {
     case 2           => return 1
     case 167_772_161 => return 3
@@ -205,7 +205,7 @@ private[acl4s] def primitiveRoot(m: Int): Int = {
  * @param b
  * @return `sum_{i=0}^{n-1} floor((ai + b) / m) (mod 2^64)`
  */
-private[acl4s] def floorSumUnsigned(n: Long, m: Long, a: Long, b: Long): Long = {
+def floorSumUnsigned(n: Long, m: Long, a: Long, b: Long): Long = {
   var _n = n
   var _m = m
   var _a = a

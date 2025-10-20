@@ -146,11 +146,11 @@ class MathSuite extends munit.FunSuite {
       if b > 0
     } {
       val a2 = safeMod(a, b)
-      val LPair(g, x) = invGcd(a, b)
+      val (g, x) = invGcd(a, b)
       val g2 = gcd(a2, b)
 
       assertEquals(g, g2)
-      assert(x >= 0)
+      assert(x >= 0L)
       assert(x <= b / g)
       assertEquals((BigInt(x) * a2 % b).toLong, g2 % b)
     }
