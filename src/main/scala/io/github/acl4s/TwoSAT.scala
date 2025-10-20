@@ -14,16 +14,16 @@ final class TwoSAT(private val n: Int) {
   def addClause(i: Int, f: Boolean, j: Int, g: Boolean): Unit = {
     require(0 <= i && i < n)
     require(0 <= j && j < n)
-    scc.addEdge(2 * i + (if (f) { 0 }
-                         else { 1 }),
-                2 * j + (if (g) { 1 }
-                         else { 0 })
+    // format: off
+    scc.addEdge(
+      2 * i + (if (f) { 0 } else { 1 }),
+      2 * j + (if (g) { 1 } else { 0 })
     )
-    scc.addEdge(2 * j + (if (g) { 0 }
-                         else { 1 }),
-                2 * i + (if (f) { 1 }
-                         else { 0 })
+    scc.addEdge(
+      2 * j + (if (g) { 0 } else { 1 }),
+      2 * i + (if (f) { 1 } else { 0 })
     )
+    // format: on
   }
 
   def satisfiable(): Boolean = {
