@@ -2,8 +2,6 @@ package io.github.acl4s
 
 import scala.annotation.targetName
 
-import io.github.acl4s.internal.LPair
-
 private inline def applyIntImpl(value: Int, mod: Int): Int = {
   var x = value % mod
   if (x < 0) { x += mod }
@@ -161,8 +159,8 @@ final case class StaticModInt[T <: Int] private (private var _value: Int)(using 
       assert(_value != 0)
       pow(mod - 2)
     } else {
-      val LPair(g, x) = internal.invGcd(_value.toLong, mod.toLong)
-      assert(g == 1)
+      val (g, x) = internal.invGcd(_value.toLong, mod.toLong)
+      assert(g == 1L)
       apply(x.toInt)
     }
   }
@@ -265,8 +263,8 @@ final case class DynamicModInt private (private var _value: Int) extends ModIntB
   }
 
   override def inv: Self = {
-    val LPair(g, x) = internal.invGcd(_value.toLong, mod.toLong)
-    assert(g == 1)
+    val (g, x) = internal.invGcd(_value.toLong, mod.toLong)
+    assert(g == 1L)
     apply(x.toInt)
   }
 }

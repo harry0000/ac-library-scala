@@ -55,22 +55,23 @@ private def convolutionFft[M <: Int](
   val m = b.length
   val z = 1 << internal.ceilPow2(n + m - 1)
 
-  val _a = java.util.Arrays.copyOf(a, z)
-  foreach(n until z)(i => { _a(i) = ModInt() })
+  // a.resize(z);
+  val _a = Array.fill(z)(ModInt())
+  Array.copy(src = a, srcPos = 0, dest = _a, destPos = 0, length = n)
   butterfly(_a)
 
-  val _b = java.util.Arrays.copyOf(b, z)
-  foreach(m until z)(i => { _b(i) = ModInt() })
+  // b.resize(z);
+  val _b = Array.fill(z)(ModInt())
+  Array.copy(src = b, srcPos = 0, dest = _b, destPos = 0, length = m)
   butterfly(_b)
 
   foreach(0 until z)(i => { _a(i) *= _b(i) })
   butterflyInv(_a)
 
-  val ans = java.util.Arrays.copyOf(_a, n + m - 1)
-  foreach(z until (n + m - 1))(i => { ans(i) = ModInt() })
+  // a.resize(n + m - 1);
+  // for (int i = 0; i < n + m - 1; i++) a[i] *= iz;
   val iz = ModInt(z).inv
-  foreach(0 until (n + m - 1))(i => { ans(i) *= iz })
-  ans
+  Array.tabulate(n + m - 1)(i => _a(i) * iz)
 }
 
 private def butterfly[M <: Int](a: Array[ModInt[M]])(using m: Modulus[M]): Unit = {
@@ -334,9 +335,9 @@ private object Convolution {
   //
   // private val M1M2M3: M1M2.type x ToLong[MOD3.type] = MOD1.toLong * MOD2 * MOD3
 
-  val I1: Long = internal.invGcd(M2M3, MOD1.toLong).b
-  val I2: Long = internal.invGcd(M1M3, MOD2.toLong).b
-  val I3: Long = internal.invGcd(M1M2, MOD3.toLong).b
+  val I1: Long = internal.invGcd(M2M3, MOD1.toLong)._2
+  val I2: Long = internal.invGcd(M1M3, MOD2.toLong)._2
+  val I3: Long = internal.invGcd(M1M2, MOD3.toLong)._2
 
   given Modulus[MOD1.type] = Modulus()
   given Modulus[MOD2.type] = Modulus()

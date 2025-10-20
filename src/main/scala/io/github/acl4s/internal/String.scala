@@ -2,7 +2,7 @@ package io.github.acl4s.internal
 
 import scala.collection.mutable
 
-private[acl4s] def saNaive(s: Array[Int]): Array[Int] = {
+def saNaive(s: Array[Int]): Array[Int] = {
   val n = s.length
   val sa = Array.tabulate(n)(identity)
   def cmp(l: Int, r: Int): Boolean = {
@@ -22,7 +22,7 @@ private[acl4s] def saNaive(s: Array[Int]): Array[Int] = {
   sa.sortWith(cmp)
 }
 
-private[acl4s] def saDoubling(s: Array[Int]): Array[Int] = {
+def saDoubling(s: Array[Int]): Array[Int] = {
   val n = s.length
   var sa = Array.tabulate(n)(identity)
   var rnk = s.clone()
@@ -58,7 +58,7 @@ private val ThresholdDoubling = 40
  * G. Nong, S. Zhang, and W. H. Chan,
  * Two Efficient Algorithms for Linear Time Suffix Array Construction
  */
-private[acl4s] def saIs(s: Array[Int], upper: Int): Array[Int] = {
+def saIs(s: Array[Int], upper: Int): Array[Int] = {
   val n = s.length
   if (n == 0) { return Array.empty[Int] }
   if (n == 1) { return Array(0) }
