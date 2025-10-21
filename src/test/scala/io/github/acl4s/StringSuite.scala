@@ -82,16 +82,16 @@ class StringSuite extends munit.FunSuite {
 
   test("suffixArray empty") {
     assertEquals(suffixArray("").toSeq, Seq.empty[Int])
-    assertEquals(suffixArrayArbitrary(Array.empty[Int]).toSeq, Seq.empty[Int])
-    assertEquals(suffixArrayArbitrary(Array.empty[Long]).toSeq, Seq.empty[Int])
+    assertEquals(suffixArray(Array.empty[Int]).toSeq, Seq.empty[Int])
+    assertEquals(suffixArray(Array.empty[Long]).toSeq, Seq.empty[Int])
   }
 
   test("suffixArray single") {
-    assertEquals(suffixArrayArbitrary(Array(0)).toSeq, Seq(0))
-    assertEquals(suffixArrayArbitrary(Array(-1)).toSeq, Seq(0))
-    assertEquals(suffixArrayArbitrary(Array(1)).toSeq, Seq(0))
-    assertEquals(suffixArrayArbitrary(Array(Int.MinValue)).toSeq, Seq(0))
-    assertEquals(suffixArrayArbitrary(Array(Int.MaxValue)).toSeq, Seq(0))
+    assertEquals(suffixArray(Array(0)).toSeq, Seq(0))
+    assertEquals(suffixArray(Array(-1)).toSeq, Seq(0))
+    assertEquals(suffixArray(Array(1)).toSeq, Seq(0))
+    assertEquals(suffixArray(Array(Int.MinValue)).toSeq, Seq(0))
+    assertEquals(suffixArray(Array(Int.MaxValue)).toSeq, Seq(0))
   }
 
   test("suffixArray SALCP naive") {
@@ -112,9 +112,9 @@ class StringSuite extends munit.FunSuite {
 
         val sa = suffixArrayNaive(s)
 
-        assertEquals(suffixArrayArbitrary(s).toSeq, sa.toSeq)
+        assertEquals(suffixArray(s).toSeq, sa.toSeq)
         assertEquals(suffixArray(s, maxC).toSeq, sa.toSeq)
-        assertEquals(lcpArrayArbitrary(s, sa).toSeq, lcpArrayNaive(s, sa).toSeq)
+        assertEquals(lcpArray(s, sa).toSeq, lcpArrayNaive(s, sa).toSeq)
       }
     }
     for (n <- 1 to 10) {
@@ -134,9 +134,9 @@ class StringSuite extends munit.FunSuite {
 
         val sa = suffixArrayNaive(s)
 
-        assertEquals(suffixArrayArbitrary(s).toSeq, sa.toSeq)
+        assertEquals(suffixArray(s).toSeq, sa.toSeq)
         assertEquals(suffixArray(s, maxC).toSeq, sa.toSeq)
-        assertEquals(lcpArrayArbitrary(s, sa).toSeq, lcpArrayNaive(s, sa).toSeq)
+        assertEquals(lcpArray(s, sa).toSeq, lcpArrayNaive(s, sa).toSeq)
       }
     }
   }
@@ -144,7 +144,7 @@ class StringSuite extends munit.FunSuite {
   test("suffixArray all A test") {
     for (n <- 1 to 100) {
       val s = Array.fill(n)(10)
-      assertEquals(suffixArrayArbitrary(s).toSeq, suffixArrayNaive(s).toSeq)
+      assertEquals(suffixArray(s).toSeq, suffixArrayNaive(s).toSeq)
       assertEquals(suffixArray(s, 10).toSeq, suffixArrayNaive(s).toSeq)
       assertEquals(suffixArray(s, 12).toSeq, suffixArrayNaive(s).toSeq)
     }
@@ -153,12 +153,12 @@ class StringSuite extends munit.FunSuite {
   test("suffixArray all AB test") {
     for (n <- 1 to 100) {
       val s = Array.tabulate(n)(_ % 2)
-      assertEquals(suffixArrayArbitrary(s).toSeq, suffixArrayNaive(s).toSeq)
+      assertEquals(suffixArray(s).toSeq, suffixArrayNaive(s).toSeq)
       assertEquals(suffixArray(s, 3).toSeq, suffixArrayNaive(s).toSeq)
     }
     for (n <- 1 to 100) {
       val s = Array.tabulate(n)(i => 1 - (i % 2))
-      assertEquals(suffixArrayArbitrary(s).toSeq, suffixArrayNaive(s).toSeq)
+      assertEquals(suffixArray(s).toSeq, suffixArrayNaive(s).toSeq)
       assertEquals(suffixArray(s, 3).toSeq, suffixArrayNaive(s).toSeq)
     }
   }
@@ -198,11 +198,11 @@ class StringSuite extends munit.FunSuite {
     val lcp = lcpArray(s, sa).toSeq
     assertEquals(lcp, Seq(1, 0))
 
-    assertEquals(lcpArrayArbitrary(Array(0, 0, 1), sa).toSeq, lcp)
-    assertEquals(lcpArrayArbitrary(Array(-100, -100, 100), sa).toSeq, lcp)
-    assertEquals(lcpArrayArbitrary(Array(Byte.MinValue, Byte.MinValue, Byte.MaxValue), sa).toSeq, lcp)
-    assertEquals(lcpArrayArbitrary(Array(Int.MinValue, Int.MinValue, Int.MaxValue), sa).toSeq, lcp)
-    assertEquals(lcpArrayArbitrary(Array(Long.MinValue, Long.MinValue, Long.MaxValue), sa).toSeq, lcp)
+    assertEquals(lcpArray(Array(0, 0, 1), sa).toSeq, lcp)
+    assertEquals(lcpArray(Array(-100, -100, 100), sa).toSeq, lcp)
+    assertEquals(lcpArray(Array(Byte.MinValue, Byte.MinValue, Byte.MaxValue), sa).toSeq, lcp)
+    assertEquals(lcpArray(Array(Int.MinValue, Int.MinValue, Int.MaxValue), sa).toSeq, lcp)
+    assertEquals(lcpArray(Array(Long.MinValue, Long.MinValue, Long.MaxValue), sa).toSeq, lcp)
   }
 
   private def zAlgorithmNaive[T](s: Array[T]): Array[Int] = {
@@ -218,7 +218,7 @@ class StringSuite extends munit.FunSuite {
 
   test("zAlgorithm empty") {
     assertEquals(zAlgorithm("").toSeq, Seq.empty[Int])
-    assertEquals(zAlgorithmImpl(Array.empty[Int]).toSeq, Seq.empty[Int])
+    assertEquals(zAlgorithm(Array.empty[Int]).toSeq, Seq.empty[Int])
   }
 
   test("zAlgorithm simple") {
@@ -241,8 +241,8 @@ class StringSuite extends munit.FunSuite {
       assertEquals(lcp.toSeq, Seq(9, 0, 7, 0, 5, 0, 3, 0, 1))
     }
 
-    assertEquals(zAlgorithmImpl(Array(1, 10, 1, 10)).toSeq, Seq(4, 0, 2, 0))
-    assertEquals(zAlgorithmImpl(Array(0, 0, 0, 0, 0, 0, 0)).toSeq, zAlgorithmNaive(Array(0, 0, 0, 0, 0, 0, 0)).toSeq)
+    assertEquals(zAlgorithm(Array(1, 10, 1, 10)).toSeq, Seq(4, 0, 2, 0))
+    assertEquals(zAlgorithm(Array(0, 0, 0, 0, 0, 0, 0)).toSeq, zAlgorithmNaive(Array(0, 0, 0, 0, 0, 0, 0)).toSeq)
   }
 
   test("zAlgorithm naive") {
@@ -255,7 +255,7 @@ class StringSuite extends munit.FunSuite {
           s(i) = g % 4
           g /= 4
         }
-        assertEquals(zAlgorithmImpl(s).toSeq, zAlgorithmNaive(s).toSeq)
+        assertEquals(zAlgorithm(s).toSeq, zAlgorithmNaive(s).toSeq)
       }
     }
     for (n <- 1 to 10) {
@@ -267,7 +267,7 @@ class StringSuite extends munit.FunSuite {
           s(i) = g % 2
           g /= 2
         }
-        assertEquals(zAlgorithmImpl(s).toSeq, zAlgorithmNaive(s).toSeq)
+        assertEquals(zAlgorithm(s).toSeq, zAlgorithmNaive(s).toSeq)
       }
     }
   }

@@ -1,5 +1,7 @@
 package io.github.acl4s
 
+import scala.annotation.targetName
+
 import io.github.acl4s.internal.foreach
 
 def suffixArray(s: Array[Int], upper: Int): Array[Int] = {
@@ -8,7 +10,8 @@ def suffixArray(s: Array[Int], upper: Int): Array[Int] = {
   internal.saIs(s.clone(), upper)
 }
 
-def suffixArrayArbitrary[T](s: Array[T])(using Ordering[T]): Array[Int] = {
+@targetName("suffixArrayArbitrary")
+def suffixArray[T](s: Array[T])(using Ordering[T]): Array[Int] = {
   import scala.math.Ordered.orderingToOrdered
 
   val n = s.length
@@ -37,7 +40,8 @@ def suffixArray(s: String): Array[Int] = {
  * T. Kasai, G. Lee, H. Arimura, S. Arikawa, and K. Park,
  * Linear-Time Longest-Common-Prefix Computation in Suffix Arrays and Its Applications
  */
-def lcpArrayArbitrary[T](s: Array[T], sa: Array[Int]): Array[Int] = {
+@targetName("lcpArrayArbitrary")
+def lcpArray[T](s: Array[T], sa: Array[Int]): Array[Int] = {
   require(s.length == sa.length)
   val n = s.length
   require(n >= 1)
@@ -65,7 +69,7 @@ def lcpArrayArbitrary[T](s: Array[T], sa: Array[Int]): Array[Int] = {
 }
 
 def lcpArray(s: String, sa: Array[Int]): Array[Int] = {
-  lcpArrayArbitrary(s.toCharArray.map(_.toInt), sa)
+  lcpArray(s.toCharArray.map(_.toInt), sa)
 }
 
 /**
@@ -74,7 +78,8 @@ def lcpArray(s: String, sa: Array[Int]): Array[Int] = {
  * Algorithms on Strings, Trees, and Sequences: Computer Science and
  * Computational Biology
  */
-private def zAlgorithmImpl[T](s: Array[T]): Array[Int] = {
+@targetName("zAlgorithmArbitrary")
+def zAlgorithm[T](s: Array[T]): Array[Int] = {
   val n = s.length
   if (n == 0) {
     return Array.empty
@@ -98,4 +103,4 @@ private def zAlgorithmImpl[T](s: Array[T]): Array[Int] = {
   z
 }
 
-def zAlgorithm(s: String): Array[Int] = zAlgorithmImpl(s.toCharArray)
+def zAlgorithm(s: String): Array[Int] = zAlgorithm(s.toCharArray)
