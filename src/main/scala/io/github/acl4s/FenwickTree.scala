@@ -116,7 +116,7 @@ object AddSub {
     override def subtract(a: ModInt1000000007, b: ModInt1000000007): ModInt1000000007 = a - b
   }
 
-  given [T <: Int](using m: Add[StaticModInt[T]]): AddSub[StaticModInt[T]] with {
+  given [T <: Int](using m: Add[StaticModInt[T]], _mod: Modulus[T]): AddSub[StaticModInt[T]] with {
     override def e(): StaticModInt[T] = m.e()
     override def combine(a: StaticModInt[T], b: StaticModInt[T]): StaticModInt[T] = m.combine(a, b)
     override def subtract(a: StaticModInt[T], b: StaticModInt[T]): StaticModInt[T] = a - b

@@ -84,7 +84,7 @@ private def butterfly[M <: Int](a: Array[ModInt[M]])(using m: Modulus[M]): Unit 
   while (len < h) {
     if (h - len == 1) {
       val p = 1 << (h - len - 1)
-      val rot = ModInt(1)
+      var rot = ModInt(1)
       foreach(0 until (1 << len))(s => {
         val offset = s << (h - len)
         foreach(0 until p)(i => {
@@ -101,7 +101,7 @@ private def butterfly[M <: Int](a: Array[ModInt[M]])(using m: Modulus[M]): Unit 
     } else {
       // 4-base
       val p = 1 << (h - len - 2)
-      val rot = ModInt(1)
+      var rot = ModInt(1)
       val imag = info.root(2)
       foreach(0 until (1 << len))(s => {
         val rot2 = rot * rot
@@ -139,7 +139,7 @@ private def butterflyInv[M <: Int](a: Array[ModInt[M]])(using m: Modulus[M]): Un
   while (len > 0) {
     if (len == 1) {
       val p = 1 << (h - len)
-      val iRot = ModInt(1)
+      var iRot = ModInt(1)
       foreach(0 until (1 << (len - 1)))(s => {
         val offset = s << (h - len + 1)
         foreach(0 until p)(i => {
@@ -156,7 +156,7 @@ private def butterflyInv[M <: Int](a: Array[ModInt[M]])(using m: Modulus[M]): Un
     } else {
       // 4-base
       val p = 1 << (h - len)
-      val iRot = ModInt(1)
+      var iRot = ModInt(1)
       val iImag = info.iRoot(2)
       foreach(0 until (1 << (len - 2)))(s => {
         val iRot2 = iRot * iRot
@@ -279,8 +279,8 @@ final class FftInfo[M <: Int] private (using m: Modulus[M]) {
   })
 
   {
-    val prod = ModInt(1)
-    val iProd = ModInt(1)
+    var prod = ModInt(1)
+    var iProd = ModInt(1)
     foreach(0 to (rank2 - 2))(i => {
       rate2(i) = root(i + 2) * prod
       iRate2(i) = iRoot(i + 2) * iProd
@@ -289,8 +289,8 @@ final class FftInfo[M <: Int] private (using m: Modulus[M]) {
     })
   }
   {
-    val prod = ModInt(1)
-    val iProd = ModInt(1)
+    var prod = ModInt(1)
+    var iProd = ModInt(1)
     foreach(0 to (rank2 - 3))(i => {
       rate3(i) = root(i + 3) * prod
       iRate3(i) = iRoot(i + 3) * iProd
