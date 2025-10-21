@@ -14,59 +14,20 @@ private inline def applyLongImpl(value: Long, mod: Int): Long = {
   x
 }
 
-private inline def addImpl[T <: Int, M <: ModIntBase[T]](lhs: M, rhs: M): Int = {
-  var v = lhs.value.toLong + rhs.value
-  if (v >= lhs.mod) {
-    v -= lhs.mod
+private inline def addImpl[T <: Int](lhs: T, rhs: T, mod: Int): Int = {
+  var v = lhs.toLong + rhs
+  if (v >= mod) {
+    v -= mod
   }
   v.toInt
 }
 
-private inline def subImpl[T <: Int, M <: ModIntBase[T]](lhs: M, rhs: M): Int = {
-  var v = lhs.value - rhs.value
+private inline def subImpl[T <: Int](lhs: T, rhs: T, mod: Int): Int = {
+  var v = lhs - rhs
   if (v < 0) {
-    v += lhs.mod
+    v += mod
   }
   v
-}
-
-trait ModIntBase[T <: Int] {
-  type Self <: ModIntBase[T]
-
-  // `val` is a reserved word in Scala
-  def value: Int
-  def mod: T
-
-  protected def raw(value: Int): Self
-  protected def apply(value: Int): Self
-
-  @targetName("addAssign")
-  def +=(rhs: Self): Unit
-
-  @targetName("subAssign")
-  def -=(rhs: Self): Unit
-
-  @targetName("mulAssign")
-  def *=(rhs: Self): Unit
-
-  @targetName("divAssign")
-  def /=(rhs: Self): Unit
-
-  @targetName("add")
-  def +(rhs: Self): Self
-
-  @targetName("sub")
-  def -(rhs: Self): Self
-
-  @targetName("mul")
-  def *(rhs: Self): Self
-
-  @targetName("div")
-  def /(rhs: Self): Self
-
-  def pow(n: Int): Self
-
-  def inv: Self
 }
 
 sealed trait Modulus[T <: Int] {
@@ -88,59 +49,59 @@ object Modulus {
   inline def apply[T <: Int](): Modulus[T] = Mod(compiletime.constValue[T])
 }
 
-final case class StaticModInt[T <: Int] private (private var _value: Int)(using m: Modulus[T]) extends ModIntBase[T] {
-  override type Self = StaticModInt[T]
-  override val mod: T = m.value
+final case class StaticModInt[T <: Int] private (private var _value: Int)(using m: Modulus[T]) {
+  type Self = StaticModInt[T]
+  val mod: T = m.value
 
-  override def value: Int = _value
-  override protected def raw(value: Int): StaticModInt[T] = new StaticModInt(value)
-  override protected def apply(value: Int): StaticModInt[T] = StaticModInt.apply(value)
+  def value: Int = _value
+  protected def raw(value: Int): StaticModInt[T] = new StaticModInt(value)
+  protected def apply(value: Int): StaticModInt[T] = StaticModInt.apply(value)
 
   private inline def mulImpl(lhs: Int, rhs: Int): Long = {
     (lhs.toLong * rhs.toLong) % mod.toLong
   }
 
   @targetName("addAssign")
-  override def +=(rhs: Self): Unit = {
-    _value = addImpl(this, rhs)
+  def +=(rhs: Self): Unit = {
+    _value = addImpl(this.value, rhs.value, mod)
   }
 
   @targetName("subAssign")
-  override def -=(rhs: Self): Unit = {
-    _value = subImpl(this, rhs)
+  def -=(rhs: Self): Unit = {
+    _value = subImpl(this.value, rhs.value, mod)
   }
 
   @targetName("mulAssign")
-  override def *=(rhs: Self): Unit = {
+  def *=(rhs: Self): Unit = {
     _value = mulImpl(value, rhs.value).toInt
   }
 
   @targetName("divAssign")
-  override def /=(rhs: Self): Unit = {
+  def /=(rhs: Self): Unit = {
     _value = mulImpl(value, rhs.inv.value).toInt
   }
 
   @targetName("add")
-  override def +(rhs: Self): Self = {
-    raw(addImpl(this, rhs))
+  def +(rhs: Self): Self = {
+    raw(addImpl(this.value, rhs.value, mod))
   }
 
   @targetName("sub")
-  override def -(rhs: Self): Self = {
-    raw(subImpl(this, rhs))
+  def -(rhs: Self): Self = {
+    raw(subImpl(this.value, rhs.value, mod))
   }
 
   @targetName("mul")
-  override def *(rhs: Self): Self = {
+  def *(rhs: Self): Self = {
     raw(mulImpl(value, rhs.value).toInt)
   }
 
   @targetName("div")
-  override def /(rhs: Self): Self = {
+  def /(rhs: Self): Self = {
     this * rhs.inv
   }
 
-  override def pow(n: Int): Self = {
+  def pow(n: Int): Self = {
     var _n = n
     var x = this
     val r = raw(1)
@@ -154,7 +115,7 @@ final case class StaticModInt[T <: Int] private (private var _value: Int)(using 
     r
   }
 
-  override def inv: Self = {
+  def inv: Self = {
     if (m.isPrime) {
       assert(_value != 0)
       pow(mod - 2)
@@ -200,55 +161,55 @@ object ModInt998244353 {
   def apply(value: Long): ModInt998244353 = StaticModInt(value)
 }
 
-final case class DynamicModInt private (private var _value: Int) extends ModIntBase[Int] {
-  override type Self = DynamicModInt
-  override val mod: Int = DynamicModInt.bt.m
+final case class DynamicModInt private (private var _value: Int) {
+  type Self = DynamicModInt
+  val mod: Int = DynamicModInt.bt.m
 
-  override def value: Int = _value
-  override protected def raw(value: Int): DynamicModInt = new DynamicModInt(value)
-  override protected def apply(value: Int): DynamicModInt = DynamicModInt.apply(value)
+  def value: Int = _value
+  protected def raw(value: Int): DynamicModInt = new DynamicModInt(value)
+  protected def apply(value: Int): DynamicModInt = DynamicModInt.apply(value)
 
   @targetName("addAssign")
-  override def +=(rhs: Self): Unit = {
-    _value = addImpl(this, rhs)
+  def +=(rhs: Self): Unit = {
+    _value = addImpl(this.value, rhs.value, mod)
   }
 
   @targetName("subAssign")
-  override def -=(rhs: Self): Unit = {
-    _value = subImpl(this, rhs)
+  def -=(rhs: Self): Unit = {
+    _value = subImpl(this.value, rhs.value, mod)
   }
 
   @targetName("mulAssign")
-  override def *=(rhs: Self): Unit = {
+  def *=(rhs: Self): Unit = {
     _value = DynamicModInt.bt.mul(value, rhs.value)
   }
 
   @targetName("divAssign")
-  override def /=(rhs: Self): Unit = {
+  def /=(rhs: Self): Unit = {
     _value = DynamicModInt.bt.mul(value, rhs.inv.value)
   }
 
   @targetName("add")
-  override def +(rhs: Self): Self = {
-    raw(addImpl(this, rhs))
+  def +(rhs: Self): Self = {
+    raw(addImpl(this.value, rhs.value, mod))
   }
 
   @targetName("sub")
-  override def -(rhs: Self): Self = {
-    raw(subImpl(this, rhs))
+  def -(rhs: Self): Self = {
+    raw(subImpl(this.value, rhs.value, mod))
   }
 
   @targetName("mul")
-  override def *(rhs: Self): Self = {
+  def *(rhs: Self): Self = {
     raw(DynamicModInt.bt.mul(value, rhs.value))
   }
 
   @targetName("div")
-  override def /(rhs: Self): Self = {
+  def /(rhs: Self): Self = {
     this * rhs.inv
   }
 
-  override def pow(n: Int): Self = {
+  def pow(n: Int): Self = {
     var _n = n
     var x = this
     val r = raw(1)
@@ -262,7 +223,7 @@ final case class DynamicModInt private (private var _value: Int) extends ModIntB
     r
   }
 
-  override def inv: Self = {
+  def inv: Self = {
     val (g, x) = internal.invGcd(_value.toLong, mod.toLong)
     assert(g == 1L)
     apply(x.toInt)
