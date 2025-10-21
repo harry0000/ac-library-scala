@@ -185,8 +185,8 @@ object StaticModInt {
 type ModInt1000000007 = StaticModInt[Mod1000000007.value.type]
 type ModInt998244353 = StaticModInt[Mod998244353.value.type]
 
-given mod1000000007Modulus: Modulus[1_000_000_007] = Mod1000000007
-given mod998244353Modulus: Modulus[998_244_353] = Mod998244353
+given mod1000000007Modulus: Modulus[Mod1000000007.value.type] = Mod1000000007
+given mod998244353Modulus: Modulus[Mod998244353.value.type] = Mod998244353
 
 object ModInt1000000007 {
   def apply(): ModInt1000000007 = StaticModInt()
