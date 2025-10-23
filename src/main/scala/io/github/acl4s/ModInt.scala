@@ -135,6 +135,14 @@ object ModInt998244353 {
   def apply(value: Long): ModInt998244353 = StaticModInt(value)
 }
 
+given [T <: Int](using Modulus[T]): Conversion[Int, StaticModInt[T]] with {
+  def apply(i: Int): StaticModInt[T] = StaticModInt(i)
+}
+
+given [T <: Int](using Modulus[T]): Conversion[Long, StaticModInt[T]] with {
+  def apply(l: Long): StaticModInt[T] = StaticModInt(l)
+}
+
 opaque type DynamicModInt = Int
 
 object DynamicModInt {
@@ -204,4 +212,12 @@ object DynamicModInt {
       apply(x)
     }
   }
+}
+
+given Conversion[Int, DynamicModInt] with {
+  def apply(i: Int): DynamicModInt = DynamicModInt(i)
+}
+
+given Conversion[Long, DynamicModInt] with {
+  def apply(l: Long): DynamicModInt = DynamicModInt(l)
 }

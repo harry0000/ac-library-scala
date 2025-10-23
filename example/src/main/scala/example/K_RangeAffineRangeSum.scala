@@ -1,6 +1,7 @@
 package example
 
 import scala.annotation.targetName
+import scala.language.implicitConversions
 
 import example.util.FastScanner
 
@@ -38,7 +39,7 @@ object K_RangeAffineRangeSum {
     def id(): F = F.id()
     def mapping(f: F, s: S): S = {
       val F(b, c) = f
-      s.sum = s.sum * b + Mint(s.size) * c
+      s.sum = s.sum * b + c * s.size
       s
     }
     def composition(l: F, r: F): F = {
