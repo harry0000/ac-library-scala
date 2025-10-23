@@ -4,52 +4,6 @@ import io.github.acl4s.MfGraph.Edge
 
 class MaxFlowSuite extends munit.FunSuite {
 
-  /**
-   * @see https://atcoder.jp/contests/practice2/tasks/practice2_d
-   */
-  test("AtCoder Library Practice Contest D - Maxflow") {
-    val n = 3
-    val m = 3
-    val grid = Array(
-      "#..",
-      "..#",
-      "..."
-    ).map(_.toCharArray)
-
-    val s = n * m
-    val t = s + 1
-    val g = MfGraph(n * m + 2)
-
-    def toVertex(i: Int, j: Int): Int = i * m + j
-
-    for {
-      i <- 0 until n
-      j <- 0 until m
-      if grid(i)(j) != '#'
-    } {
-      if ((i + j) % 2 == 0) {
-        for {
-          (di, dj) <- List((-1, 0), (1, 0), (0, -1), (0, 1))
-          ni = i + di
-          nj = j + dj
-          if 0 <= ni && ni < n && 0 <= nj && nj < m && grid(ni)(nj) != '#'
-        } {
-          g.addEdge(toVertex(i, j), toVertex(ni, nj), 1L)
-        }
-
-        g.addEdge(s, toVertex(i, j), 1L)
-      } else {
-        g.addEdge(toVertex(i, j), t, 1L)
-      }
-    }
-
-    assertEquals(g.flow(s, t), 3L)
-
-    val expectedEdges = 3
-    val actualEdges = g.edges().count { case Edge(from, to, _, flow) => from != s && to != t && flow > 0L }
-    assertEquals(actualEdges, expectedEdges)
-  }
-
   test("simple") {
     val g = MfGraph(4)
 

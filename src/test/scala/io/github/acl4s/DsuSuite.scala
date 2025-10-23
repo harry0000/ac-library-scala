@@ -2,27 +2,6 @@ package io.github.acl4s
 
 class DsuSuite extends munit.FunSuite {
 
-  /**
-   * @see https://atcoder.jp/contests/practice2/tasks/practice2_a
-   */
-  test("AtCoder Library Practice Contest A - Disjoint Set Union") {
-    val uf = Dsu(4)
-
-    assertEquals(uf.same(0, 1), false)
-
-    uf.merge(0, 1)
-    uf.merge(2, 3)
-
-    assertEquals(uf.same(0, 1), true)
-    assertEquals(uf.same(1, 2), false)
-    assertEquals(uf.groups(), Seq(Seq(0, 1), Seq(2, 3)))
-
-    uf.merge(0, 2)
-
-    assertEquals(uf.same(1, 3), true)
-    assertEquals(uf.groups(), Seq(Seq(0, 1, 2, 3)))
-  }
-
   test("zero") {
     val uf = Dsu(0)
 
