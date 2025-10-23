@@ -30,12 +30,12 @@ object J_SegmentTree {
           val x = in.nextInt()
           val v = in.nextInt()
 
-          segtree.set(x-1, v)
+          segtree.set(x - 1, v)
         case 2 =>
           val l = in.nextInt()
           val r = in.nextInt()
 
-          out.println(segtree.prod(l-1, r))
+          out.println(segtree.prod(l - 1, r))
         case 3 =>
           val x = in.nextInt()
           val v = in.nextInt()

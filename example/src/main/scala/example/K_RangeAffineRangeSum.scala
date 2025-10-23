@@ -1,10 +1,11 @@
 package example
 
 import scala.annotation.targetName
+import scala.language.implicitConversions
 
 import example.util.FastScanner
 
-import io.github.acl4s.{LazySegtree, MapMonoid, Monoid, ModInt998244353 as Mint}
+import io.github.acl4s.{LazySegtree, MapMonoid, ModInt998244353 as Mint, Monoid}
 import io.github.acl4s.given
 import io.github.acl4s.internal.foreach
 
@@ -38,7 +39,7 @@ object K_RangeAffineRangeSum {
     def id(): F = F.id()
     def mapping(f: F, s: S): S = {
       val F(b, c) = f
-      s.sum = s.sum * b + Mint(s.size) * c
+      s.sum = s.sum * b + c * s.size
       s
     }
     def composition(l: F, r: F): F = {
@@ -56,7 +57,7 @@ object K_RangeAffineRangeSum {
     val q = in.nextInt()
 
     val segtree = LazySegtree(Array.fill(n)(S(in.nextInt())))
-    
+
     foreach(0 until q)(_ => {
       val query = in.nextInt()
       val l = in.nextInt()
