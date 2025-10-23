@@ -2,60 +2,6 @@ package io.github.acl4s
 
 class StringSuite extends munit.FunSuite {
 
-  /**
-   * @see https://atcoder.jp/contests/practice2/tasks/practice2_i
-   */
-  test("AtCoder Library Practice Contest I - Number of Substrings") {
-    def solve(s: String): Long = {
-      val n = s.length
-
-      val sa = suffixArray(s)
-      val lcp = lcpArray(s, sa)
-
-      val total = n.toLong * (n + 1) / 2
-      val sum = lcp.foldLeft(0L)(_ + _)
-
-      total - sum
-    }
-
-    // Sample Input 1
-    {
-      val s = "abcbcba"
-      val expected = 21L
-
-      val actual = solve(s)
-
-      assertEquals(actual, expected)
-    }
-    // Sample Input 2
-    {
-      val s = "mississippi"
-      val expected = 53L
-
-      val actual = solve(s)
-
-      assertEquals(actual, expected)
-    }
-    // Sample Input 3
-    {
-      val s = "ababacaca"
-      val expected = 33L
-
-      val actual = solve(s)
-
-      assertEquals(actual, expected)
-    }
-    // Sample Input 4
-    {
-      val s = "aaaaa"
-      val expected = 5L
-
-      val actual = solve(s)
-
-      assertEquals(actual, expected)
-    }
-  }
-
   private def suffixArrayNaive(s: Array[Int]): Array[Int] = {
     val n = s.length
     val sa = Array.tabulate(n)(identity)

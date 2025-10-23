@@ -7,44 +7,6 @@ import scala.util.Random
 @nowarn("msg=unused import")
 class ConvolutionSuite extends munit.FunSuite {
 
-  /**
-   * @see https://atcoder.jp/contests/practice2/tasks/practice2_f
-   */
-  test("AtCoder Library Practice Contest F - Convolution") {
-    import ModInt998244353 as Mint
-
-    // Sample Input 1
-    {
-      // val n = 4
-      // val m = 5
-      val a = Array(1, 2, 3, 4)
-      val b = Array(5, 6, 7, 8, 9)
-
-      val _a = a.map(Mint(_))
-      val _b = b.map(Mint(_))
-
-      val expected = IndexedSeq(5, 16, 34, 60, 70, 70, 59, 36)
-      val obtained = convolution(_a, _b).map(_.value)
-
-      assertEquals(obtained, expected)
-    }
-    // Sample Input 2
-    {
-      // val n = 1
-      // val m = 1
-      val a = Array(10_000_000)
-      val b = Array(10_000_000)
-
-      val _a = a.map(Mint(_))
-      val _b = b.map(Mint(_))
-
-      val expected = IndexedSeq(871_938_225)
-      val obtained = convolution(_a, _b).map(_.value)
-
-      assertEquals(obtained, expected)
-    }
-  }
-
   def convNaive[M <: Int](
     a: Array[StaticModInt[M]],
     b: Array[StaticModInt[M]]

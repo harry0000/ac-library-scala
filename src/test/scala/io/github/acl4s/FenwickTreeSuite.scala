@@ -6,21 +6,6 @@ import scala.annotation.nowarn
 @nowarn("msg=unused import")
 class FenwickTreeSuite extends munit.FunSuite {
 
-  /**
-   * @see https://atcoder.jp/contests/practice2/tasks/practice2_b
-   */
-  test("AtCoder Library Practice Contest B - Fenwick Tree") {
-    val fw = FenwickTree(Array(1L, 2L, 3L, 4L, 5L))
-
-    assertEquals(fw.sum(0, 5), 15L)
-    assertEquals(fw.sum(2, 4), 7L)
-
-    fw.add(3, 10)
-
-    assertEquals(fw.sum(0, 5), 25L)
-    assertEquals(fw.sum(0, 3), 6L)
-  }
-
   test("zero") {
     {
       val fw = FenwickTree[Long](0)

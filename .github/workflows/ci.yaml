@@ -50,4 +50,4 @@ jobs:
           cache: sbt
       - uses: sbt/setup-sbt@v1
       - name: 'Run tests'
-        run: sbt -v ++${{ matrix.scala }} test
+        run: sbt -v ++${{ matrix.scala }} test example/test

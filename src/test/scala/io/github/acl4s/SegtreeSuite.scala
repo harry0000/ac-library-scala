@@ -3,31 +3,6 @@ package io.github.acl4s
 class SegtreeSuite extends munit.FunSuite {
 
   /**
-   * @see https://atcoder.jp/contests/practice2/tasks/practice2_j
-   */
-  test("AtCoder Library Practice Contest J - Segment Tree") {
-    given rmq: Monoid[Int] with {
-      final override def e(): Int = Int.MinValue
-      final override def combine(a: Int, b: Int): Int = a.max(b)
-    }
-
-    val base = Array(1, 2, 3, 2, 1)
-    val n = base.length
-
-    val segtree = Segtree(base)
-    assertEquals(segtree.prod(0 until n), 3)
-    assertEquals(segtree.allProd(), 3)
-
-    assertEquals(segtree.maxRight(1, _ < 3), 2)
-
-    segtree.set(2, 1)
-
-    assertEquals(segtree.prod(1 until 4), 2)
-
-    assertEquals(segtree.maxRight(0, _ < 3), 5)
-  }
-
-  /**
    * @see https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_A
    */
   test("Aizu Online Judge DSL_2_A Range Minimum Query (RMQ)") {
