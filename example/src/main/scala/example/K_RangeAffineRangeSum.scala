@@ -5,7 +5,7 @@ import scala.language.implicitConversions
 
 import example.util.FastScanner
 
-import io.github.acl4s.{LazySegtree, MapMonoid, Monoid, ModInt998244353 as Mint}
+import io.github.acl4s.{LazySegtree, MapMonoid, ModInt998244353 as Mint, Monoid}
 import io.github.acl4s.given
 import io.github.acl4s.internal.foreach
 
@@ -57,7 +57,7 @@ object K_RangeAffineRangeSum {
     val q = in.nextInt()
 
     val segtree = LazySegtree(Array.fill(n)(S(in.nextInt())))
-    
+
     foreach(0 until q)(_ => {
       val query = in.nextInt()
       val l = in.nextInt()

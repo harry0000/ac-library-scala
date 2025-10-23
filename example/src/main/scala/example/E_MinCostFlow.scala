@@ -49,7 +49,10 @@ object E_MinCostFlow {
     out.println(Base * n * k - minCost)
     foreach(0 until n)(row => {
       val s = (0 until n)
-        .map(col => if (selected((row, col))) { 'X' } else { '.' })
+        .map(col =>
+          if (selected((row, col))) { 'X' }
+          else { '.' }
+        )
         .mkString
       out.println(s)
     })
