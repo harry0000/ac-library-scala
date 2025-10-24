@@ -11,26 +11,36 @@ import io.github.acl4s.internal.foreach
 object G_SCC {
 
   def main(args: Array[String]): Unit = {
-    val in = FastScanner(System.in)
-    val out = new java.io.PrintWriter(System.out)
+    // HACK: To avoid a StackOverflowError when running on a JVM
+    val t = new Thread(null, new Solver, "solver", /* stackSize = */ 1L << 26)
+    t.setUncaughtExceptionHandler((_, e) => e.printStackTrace(System.err))
+    t.start()
+    t.join()
+  }
 
-    val n = in.nextInt()
-    val m = in.nextInt()
-    val g = SccGraph(n)
-    foreach(0 until m)(_ => {
-      val a = in.nextInt()
-      val b = in.nextInt()
+  class Solver extends Runnable {
+    override def run(): Unit = {
+      val in = FastScanner(System.in)
+      val out = new java.io.PrintWriter(System.out)
 
-      g.addEdge(a, b)
-    })
+      val n = in.nextInt()
+      val m = in.nextInt()
+      val g = SccGraph(n)
+      foreach(0 until m)(_ => {
+        val a = in.nextInt()
+        val b = in.nextInt()
 
-    val ans = g.scc()
-    out.println(ans.size)
-    for (vs <- ans) {
-      out.print(s"${vs.size} ")
-      out.println(vs.mkString(" "))
+        g.addEdge(a, b)
+      })
+
+      val ans = g.scc()
+      out.println(ans.size)
+      for (vs <- ans) {
+        out.print(s"${vs.size} ")
+        out.println(vs.mkString(" "))
+      }
+      out.flush()
     }
-    out.flush()
   }
 
 }
