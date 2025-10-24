@@ -12,7 +12,7 @@ private inline def applyLongImpl(value: Long, mod: Int): Long = {
   x
 }
 
-private inline def addImpl[T <: Int](lhs: T, rhs: T, mod: Int): Int = {
+private inline def addImpl(lhs: Int, rhs: Int, mod: Int): Int = {
   var v = lhs.toLong + rhs
   if (v >= mod) {
     v -= mod
@@ -20,7 +20,7 @@ private inline def addImpl[T <: Int](lhs: T, rhs: T, mod: Int): Int = {
   v.toInt
 }
 
-private inline def subImpl[T <: Int](lhs: T, rhs: T, mod: Int): Int = {
+private inline def subImpl(lhs: Int, rhs: Int, mod: Int): Int = {
   var v = lhs - rhs
   if (v < 0) {
     v += mod
