@@ -1,5 +1,7 @@
 package io.github.acl4s
 
+import scala.annotation.targetName
+
 private inline def applyIntImpl(value: Int, mod: Int): Int = {
   var x = value % mod
   if (x < 0) { x += mod }
@@ -40,10 +42,11 @@ case object Mod998244353 extends Modulus[998_244_353] {
   override val value: 998_244_353 = 998_244_353
   override val isPrime: Boolean = true
 }
-case class Mod[T <: Int](value: T) extends Modulus[T] {
-  override val isPrime: Boolean = internal.isPrime(value)
-}
 object Modulus {
+  final private case class Mod[T <: Int](value: T) extends Modulus[T] {
+    override val isPrime: Boolean = internal.isPrime(value)
+  }
+
   inline def apply[T <: Int](): Modulus[T] = Mod(compiletime.constValue[T])
 }
 
@@ -74,18 +77,22 @@ object StaticModInt {
     // We use `value`. `val` is a reserved word in Scala.
     inline def value: Int = self
 
+    @targetName("add")
     inline def +(rhs: StaticModInt[T]): StaticModInt[T] = {
       raw(addImpl(self, rhs, m.value))
     }
 
+    @targetName("sub")
     inline def -(rhs: StaticModInt[T]): StaticModInt[T] = {
       raw(subImpl(self, rhs, m.value))
     }
 
+    @targetName("mul")
     inline def *(rhs: StaticModInt[T]): StaticModInt[T] = {
       mul(self, rhs)
     }
 
+    @targetName("div")
     inline def /(rhs: StaticModInt[T]): StaticModInt[T] = {
       mul(self, rhs.inv)
     }
@@ -176,18 +183,22 @@ object DynamicModInt {
     // We use `value`. `val` is a reserved word in Scala.
     inline def value: Int = self
 
+    @targetName("add")
     inline def +(rhs: DynamicModInt): DynamicModInt = {
       raw(addImpl(self, rhs, mod))
     }
 
+    @targetName("sub")
     inline def -(rhs: DynamicModInt): DynamicModInt = {
       raw(subImpl(self, rhs, mod))
     }
 
+    @targetName("mul")
     inline def *(rhs: DynamicModInt): DynamicModInt = {
       mul(self, rhs)
     }
 
+    @targetName("div")
     inline def /(rhs: DynamicModInt): DynamicModInt = {
       mul(self, rhs.inv)
     }
