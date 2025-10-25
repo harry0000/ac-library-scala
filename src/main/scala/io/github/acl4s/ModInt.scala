@@ -40,10 +40,11 @@ case object Mod998244353 extends Modulus[998_244_353] {
   override val value: 998_244_353 = 998_244_353
   override val isPrime: Boolean = true
 }
-case class Mod[T <: Int](value: T) extends Modulus[T] {
-  override val isPrime: Boolean = internal.isPrime(value)
-}
 object Modulus {
+  final private case class Mod[T <: Int](value: T) extends Modulus[T] {
+    override val isPrime: Boolean = internal.isPrime(value)
+  }
+
   inline def apply[T <: Int](): Modulus[T] = Mod(compiletime.constValue[T])
 }
 
