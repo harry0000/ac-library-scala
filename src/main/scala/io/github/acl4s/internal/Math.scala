@@ -19,6 +19,8 @@ private val ULongMaxValue = BigInt(2).pow(64) - 1
  * Fast modular by barrett reduction
  * Reference: https://en.wikipedia.org/wiki/Barrett_reduction
  * NOTE: reconsider after Ice Lake
+ *
+ * @param m `1 <= m`
  */
 final case class Barrett(m: Int) {
   val im = ULongMaxValue / m + 1L
