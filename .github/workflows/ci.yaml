@@ -28,7 +28,7 @@ jobs:
           cache: sbt
       - uses: sbt/setup-sbt@v1
       - name: 'Run Scalafmt'
-        run: sbt -v ++3.7.2 scalafmtSbt scalafmtAll example/scalafmtAll
+        run: sbt -v ++3.7.2 scalafmtSbtCheck scalafmtCheckAll example/scalafmtCheckAll
   test:
     strategy:
       fail-fast: false
