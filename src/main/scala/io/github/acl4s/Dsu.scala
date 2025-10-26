@@ -45,10 +45,14 @@ final class Dsu(private val n: Int) {
 
   def leader(a: Int): Int = {
     require(0 <= a && a < n)
+    _leader(a)
+  }
+
+  private def _leader(a: Int): Int = {
     if (parentOrSize(a) < 0) {
       a
     } else {
-      parentOrSize(a) = leader(parentOrSize(a))
+      parentOrSize(a) = _leader(parentOrSize(a))
       parentOrSize(a)
     }
   }
