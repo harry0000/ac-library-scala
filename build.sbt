@@ -4,7 +4,7 @@ lazy val supportedScalaVersions = List("3.7.2", "3.3.0")
 
 lazy val commonSettings = Seq(
   organization := "io.github.acl4s",
-  version := "0.1.0-SNAPSHOT",
+  version := "0.2.0-SNAPSHOT",
   licenses := List(License.CC0),
   crossScalaVersions := supportedScalaVersions,
   scalaVersion := supportedScalaVersions.head,
