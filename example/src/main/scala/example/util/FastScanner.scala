@@ -39,6 +39,12 @@ final class FastScanner(private val in: InputStream) {
     sb.toString
   }
 
+  def nextChar(): Char = {
+    val b = skipWhitespace()
+    if (b == EndOfStream) { 0.toChar }
+    else { b.toChar }
+  }
+
   def nextInt(): Int = {
     var b = skipWhitespace()
     var sign = 1
