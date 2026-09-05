@@ -84,9 +84,8 @@ final class MfGraph(private val n: Int) {
       if (v == s) { return up }
       var res = 0L
       val levelV = level(v)
-      var i = iter(v)
-      while (i < g(v).size) {
-        val e = g(v)(i)
+      while (iter(v) < g(v).size) {
+        val e = g(v)(iter(v))
         val re = g(e.to)(e.rev)
         // if (level_v <= level[e.to] || g[e.to][e.rev].cap == 0) continue;
         if (levelV > level(e.to) && re.cap != 0) {
@@ -99,7 +98,7 @@ final class MfGraph(private val n: Int) {
             if (res == up) { return res }
           }
         }
-        i += 1
+        iter(v) += 1
       }
       level(v) = n
       res
